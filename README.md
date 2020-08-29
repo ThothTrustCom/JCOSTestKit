@@ -17,4 +17,8 @@ Create a class that implements the `TestFunctionInterface` class and implement t
 
 Compile your source codes with Oracle Java SDK compiler and copy the generated `bin` folder class files and packages into the `ext` folder of the JCOSTestKit platform. The sample plugin package already contains a fully compiled, ready and running sample code. The platform itself is also by default equipped with the sample plugin package classes ready for demo use.
 
+# Contributing Plugins
+
+Please issue a pull request for pulling your plugin extension packages that you want to contribute to the test extensions or to improve on the usage and capabilities of the testing framework.
+
 
