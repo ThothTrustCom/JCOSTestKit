@@ -1,5 +1,5 @@
 // converted by version  [v3.0.4]
-// on Mon Aug 31 16:53:18 SGT 2020
+// on Thu Sep 03 16:02:04 SGT 2020
 
 .package jcostest {
 	.aid 0x55:0x55:0x55:0x55:0x55:0xFF;
@@ -9,6 +9,7 @@
 		0xA0:0x0:0x0:0x0:0x62:0x0:0x1 1.0;		//java/lang
 		0xA0:0x0:0x0:0x0:0x62:0x1:0x2 1.5;		//javacard/security
 		0xA0:0x0:0x0:0x0:0x62:0x1:0x1 1.5;		//javacard/framework
+		0xA0:0x0:0x0:0x0:0x62:0x2:0x1 1.5;		//javacardx/crypto
 	}
 
 	.applet {
@@ -17,89 +18,269 @@
 
 	.constantPool {
 		// 0
-		instanceFieldRef byte[] JCOSTestApplet/arbitraryData;
+		instanceFieldRef byte JCOSTestApplet/testKey1Type;
 		// 1
-		instanceFieldRef byte[] JCOSTestApplet/b0;
+		instanceFieldRef byte JCOSTestApplet/testKey2Type;
 		// 2
-		instanceFieldRef 1.11 JCOSTestApplet/md;
+		instanceFieldRef byte JCOSTestApplet/testKey3Type;
 		// 3
-		.classRef 1.6;		// javacard/security/DSAPublicKey
+		instanceFieldRef byte JCOSTestApplet/testKey4Type;
 		// 4
-		.classRef 1.5;		// javacard/security/DSAPrivateKey
+		instanceFieldRef byte[] JCOSTestApplet/arbitraryData;
 		// 5
-		.classRef 1.19;		// javacard/security/ECPublicKey
+		instanceFieldRef byte[] JCOSTestApplet/b0;
 		// 6
-		.classRef 1.18;		// javacard/security/ECPrivateKey
+		instanceFieldRef 3.1 JCOSTestApplet/cipher;
 		// 7
-		.classRef 1.9;		// javacard/security/RSAPublicKey
+		instanceFieldRef 1.0 JCOSTestApplet/testKey1;
 		// 8
-		.classRef 1.8;		// javacard/security/RSAPrivateKey
+		instanceFieldRef 1.0 JCOSTestApplet/testKey2;
 		// 9
-		staticMethodRef 2.16.1([BS[BSS)S;		// javacard/framework/Util.arrayCopy([BS[BSS)S
+		instanceFieldRef 1.0 JCOSTestApplet/testKey3;
 		// 10
-		.classRef JCOSTestApplet;
+		instanceFieldRef 1.0 JCOSTestApplet/testKey4;
 		// 11
-		staticMethodRef JCOSTestApplet/<init>()V;
+		instanceFieldRef 1.22 JCOSTestApplet/ka;
 		// 12
-		staticMethodRef 2.3.0()V;		// javacard/framework/Applet.<init>()V
+		instanceFieldRef 1.15 JCOSTestApplet/signer;
 		// 13
-		staticMethodRef 0.0.0()V;		// java/lang/Object.<init>()V
+		instanceFieldRef 1.11 JCOSTestApplet/md;
 		// 14
-		staticMethodRef 2.8.13(SB)[B;		// javacard/framework/JCSystem.makeTransientByteArray(SB)[B
+		staticFieldRef byte[] Constants/ansix9p384r1_field;
 		// 15
-		.classRef 1.20;		// javacard/security/AESKey
+		staticFieldRef byte[] Constants/ansix9p384r1_g;
 		// 16
-		virtualMethodRef 2.3.1()V;		// register()V
+		staticFieldRef byte[] Constants/ansix9p384r1_r;
 		// 17
-		virtualMethodRef 2.3.3()Z;		// selectingApplet()Z
+		staticFieldRef byte[] Constants/ansix9p521r1_a;
 		// 18
-		virtualMethodRef 2.10.1()[B;		// getBuffer()[B
+		staticFieldRef byte[] Constants/ansix9p521r1_b;
 		// 19
+		staticFieldRef byte[] Constants/ansix9p521r1_field;
+		// 20
+		staticFieldRef byte[] Constants/ansix9p521r1_g;
+		// 21
+		staticFieldRef byte[] Constants/ansix9p521r1_r;
+		// 22
+		staticFieldRef byte[] Constants/SECP256K1_A;
+		// 23
+		staticFieldRef byte[] Constants/SECP256K1_B;
+		// 24
+		staticFieldRef byte[] Constants/SECP256K1_FIELD;
+		// 25
+		staticFieldRef byte[] Constants/SECP256K1_G;
+		// 26
+		staticFieldRef byte[] Constants/SECP256K1_R;
+		// 27
+		staticFieldRef byte[] Constants/brainpoolP256r1_a;
+		// 28
+		staticFieldRef byte[] Constants/brainpoolP256r1_b;
+		// 29
+		staticFieldRef byte[] Constants/brainpoolP256r1_field;
+		// 30
+		staticFieldRef byte[] Constants/brainpoolP256r1_g;
+		// 31
+		staticFieldRef byte[] Constants/brainpoolP256r1_r;
+		// 32
+		staticFieldRef byte[] Constants/brainpoolP384r1_a;
+		// 33
+		staticFieldRef byte[] Constants/brainpoolP384r1_b;
+		// 34
+		staticFieldRef byte[] Constants/brainpoolP384r1_field;
+		// 35
+		staticFieldRef byte[] Constants/brainpoolP384r1_g;
+		// 36
+		staticFieldRef byte[] Constants/brainpoolP384r1_r;
+		// 37
+		staticFieldRef byte[] Constants/brainpoolP512r1_a;
+		// 38
+		staticFieldRef byte[] Constants/brainpoolP512r1_b;
+		// 39
+		staticFieldRef byte[] Constants/brainpoolP512r1_field;
+		// 40
+		staticFieldRef byte[] Constants/brainpoolP512r1_g;
+		// 41
+		staticFieldRef byte[] Constants/brainpoolP512r1_r;
+		// 42
+		staticMethodRef 2.16.1([BS[BSS)S;		// javacard/framework/Util.arrayCopy([BS[BSS)S
+		// 43
+		.classRef JCOSTestApplet;
+		// 44
+		staticMethodRef JCOSTestApplet/<init>()V;
+		// 45
+		staticMethodRef 2.3.0()V;		// javacard/framework/Applet.<init>()V
+		// 46
+		staticMethodRef 0.0.0()V;		// java/lang/Object.<init>()V
+		// 47
+		.classRef 1.20;		// javacard/security/AESKey
+		// 48
+		.classRef 1.10;		// javacard/security/DESKey
+		// 49
+		.classRef 1.19;		// javacard/security/ECPublicKey
+		// 50
+		staticMethodRef AlternateKM/initECCurveParameters(Ljavacard/security/Key;B)V;
+			.descriptor	Ljavacard/security/Key;	1.0;
+
+		// 51
+		staticMethodRef 2.8.13(SB)[B;		// javacard/framework/JCSystem.makeTransientByteArray(SB)[B
+		// 52
+		.classRef 1.18;		// javacard/security/ECPrivateKey
+		// 53
+		virtualMethodRef 2.3.1()V;		// register()V
+		// 54
+		virtualMethodRef 2.3.3()Z;		// selectingApplet()Z
+		// 55
+		virtualMethodRef 2.10.1()[B;		// getBuffer()[B
+		// 56
+		virtualMethodRef JCOSTestApplet/setKey(Ljavacard/framework/APDU;[B)V;
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+		// 57
 		virtualMethodRef JCOSTestApplet/setData(Ljavacard/framework/APDU;[B)V;
 			.descriptor	Ljavacard/framework/APDU;	2.10;
 
-		// 20
+		// 58
+		virtualMethodRef JCOSTestApplet/encrypt(Ljavacard/framework/APDU;[B)V;
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+		// 59
+		virtualMethodRef JCOSTestApplet/decrypt(Ljavacard/framework/APDU;[B)V;
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+		// 60
+		virtualMethodRef JCOSTestApplet/derive(Ljavacard/framework/APDU;[B)V;
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+		// 61
 		virtualMethodRef JCOSTestApplet/doHash(Ljavacard/framework/APDU;[B)V;
 			.descriptor	Ljavacard/framework/APDU;	2.10;
 
-		// 21
+		// 62
 		staticMethodRef 2.7.1(S)V;		// javacard/framework/ISOException.throwIt(S)V
-		// 22
-		virtualMethodRef 2.10.6()S;		// setIncomingAndReceive()S
-		// 23
-		virtualMethodRef 2.10.16()S;		// getOffsetCdata()S
-		// 24
-		staticMethodRef AlternateKM/setData([BS[BSS)V;
-		// 25
-		staticMethodRef 2.16.5(BB)S;		// javacard/framework/Util.makeShort(BB)S
-		// 26
-		staticMethodRef 2.16.2([BS[BSS)S;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
-		// 27
-		virtualMethodRef 2.10.8(SS)V;		// setOutgoingAndSend(SS)V
-		// 28
-		staticMethodRef 2.16.6([BSS)S;		// javacard/framework/Util.setShort([BSS)S
-		// 29
+		// 63
 		.classRef 1.12;		// javacard/security/CryptoException
-		// 30
+		// 64
+		virtualMethodRef 2.10.6()S;		// setIncomingAndReceive()S
+		// 65
+		staticMethodRef 3.1.0(BZ)Ljavacardx/crypto/Cipher;;		// javacardx/crypto/Cipher.getInstance(BZ)Ljavacardx/crypto/Cipher;
+			.descriptor	Ljavacardx/crypto/Cipher;	3.1;
+
+		// 66
+		.classRef 1.17;		// javacard/security/ECKey
+		// 67
+		virtualMethodRef 3.1.2()B;		// getAlgorithm()B
+		// 68
+		virtualMethodRef 2.10.8(SS)V;		// setOutgoingAndSend(SS)V
+		// 69
+		staticFieldRef byte[] Constants/ansix9p256r1_a;
+		// 70
+		staticFieldRef byte[] Constants/ansix9p256r1_b;
+		// 71
+		staticFieldRef byte[] Constants/ansix9p256r1_field;
+		// 72
+		staticFieldRef byte[] Constants/ansix9p256r1_g;
+		// 73
+		.classRef 1.0;		// javacard/security/Key
+		// 74
+		virtualMethodRef 2.10.16()S;		// getOffsetCdata()S
+		// 75
+		virtualMethodRef 3.1.4(Ljavacard/security/Key;B[BSS)V;		// init(Ljavacard/security/Key;B[BSS)V
+			.descriptor	Ljavacard/security/Key;	1.0;
+
+		// 76
+		virtualMethodRef 3.1.5([BSS[BS)S;		// update([BSS[BS)S
+		// 77
+		virtualMethodRef 2.10.7()S;		// setOutgoing()S
+		// 78
+		virtualMethodRef 2.10.9(S)V;		// setOutgoingLength(S)V
+		// 79
+		virtualMethodRef 2.10.5([BSS)V;		// sendBytesLong([BSS)V
+		// 80
+		virtualMethodRef 3.1.1([BSS[BS)S;		// doFinal([BSS[BS)S
+		// 81
+		staticMethodRef 1.22.0(BZ)Ljavacard/security/KeyAgreement;;		// javacard/security/KeyAgreement.getInstance(BZ)Ljavacard/security/KeyAgreement;
+			.descriptor	Ljavacard/security/KeyAgreement;	1.22;
+
+		// 82
+		staticFieldRef byte[] Constants/ansix9p256r1_r;
+		// 83
+		virtualMethodRef 1.22.2()B;		// getAlgorithm()B
+		// 84
+		.classRef 1.2;		// javacard/security/PrivateKey
+		// 85
+		virtualMethodRef 1.22.1(Ljavacard/security/PrivateKey;)V;		// init(Ljavacard/security/PrivateKey;)V
+			.descriptor	Ljavacard/security/PrivateKey;	1.2;
+
+		// 86
+		virtualMethodRef 1.22.3([BSS[BS)S;		// generateSecret([BSS[BS)S
+		// 87
+		staticMethodRef 1.15.0(BZ)Ljavacard/security/Signature;;		// javacard/security/Signature.getInstance(BZ)Ljavacard/security/Signature;
+			.descriptor	Ljavacard/security/Signature;	1.15;
+
+		// 88
+		staticFieldRef byte[] Constants/ansix9p384r1_a;
+		// 89
+		virtualMethodRef 1.15.3(Ljavacard/security/Key;B)V;		// init(Ljavacard/security/Key;B)V
+			.descriptor	Ljavacard/security/Key;	1.0;
+
+		// 90
+		virtualMethodRef 1.15.4(Ljavacard/security/Key;B[BSS)V;		// init(Ljavacard/security/Key;B[BSS)V
+			.descriptor	Ljavacard/security/Key;	1.0;
+
+		// 91
+		virtualMethodRef 1.15.6([BSS)V;		// update([BSS)V
+		// 92
+		virtualMethodRef 1.15.5([BSS[BS)S;		// sign([BSS[BS)S
+		// 93
+		virtualMethodRef 1.15.1()B;		// getAlgorithm()B
+		// 94
+		virtualMethodRef 1.15.7([BSS[BSS)Z;		// verify([BSS[BSS)Z
+		// 95
+		staticMethodRef 2.16.5(BB)S;		// javacard/framework/Util.makeShort(BB)S
+		// 96
+		staticMethodRef 1.13.0(BSZ)Ljavacard/security/Key;;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
+			.descriptor	Ljavacard/security/Key;	1.0;
+
+		// 97
+		virtualMethodRef JCOSTestApplet/setKey(Ljavacard/security/Key;B[BSS)Z;
+			.descriptor	Ljavacard/security/Key;	1.0;
+
+		// 98
+		staticMethodRef AlternateKM/setKey(Ljavacard/security/Key;B[BSS)Z;
+			.descriptor	Ljavacard/security/Key;	1.0;
+
+		// 99
+		.classRef 1.6;		// javacard/security/DSAPublicKey
+		// 100
+		.classRef 1.5;		// javacard/security/DSAPrivateKey
+		// 101
+		.classRef 1.9;		// javacard/security/RSAPublicKey
+		// 102
+		.classRef 1.8;		// javacard/security/RSAPrivateKey
+		// 103
+		staticMethodRef AlternateKM/setData([BS[BSS)V;
+		// 104
+		staticMethodRef 2.16.2([BS[BSS)S;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
+		// 105
+		staticMethodRef 2.16.6([BSS)S;		// javacard/framework/Util.setShort([BSS)S
+		// 106
 		staticMethodRef 1.11.0(BZ)Ljavacard/security/MessageDigest;;		// javacard/security/MessageDigest.getInstance(BZ)Ljavacard/security/MessageDigest;
 			.descriptor	Ljavacard/security/MessageDigest;	1.11;
 
-		// 31
-		.classRef 1.10;		// javacard/security/DESKey
-		// 32
+		// 107
+		staticFieldRef byte[] Constants/ansix9p384r1_b;
+		// 108
 		virtualMethodRef 1.11.2()B;		// getAlgorithm()B
-		// 33
+		// 109
 		virtualMethodRef 1.11.4()V;		// reset()V
-		// 34
+		// 110
 		virtualMethodRef 1.11.5([BSS)V;		// update([BSS)V
-		// 35
+		// 111
 		virtualMethodRef 1.11.1([BSS[BS)S;		// doFinal([BSS[BS)S
-		// 36
-		virtualMethodRef 2.10.7()S;		// setOutgoing()S
-		// 37
-		virtualMethodRef 2.10.9(S)V;		// setOutgoingLength(S)V
-		// 38
-		virtualMethodRef 2.10.5([BSS)V;		// sendBytesLong([BSS)V
+		// 112
+		virtualMethodRef JCOSTestApplet/initECCurveParameters(Ljavacard/security/Key;B)V;
+			.descriptor	Ljavacard/security/Key;	1.0;
+
 	}
 
 	.class public AlternateKM 0 extends 0.0 {		// extends java/lang/Object
@@ -116,319 +297,376 @@
 			.locals 0;
 
 				L0:	aload_0;
-					invokespecial 13;		// java/lang/Object.<init>()V
+					invokespecial 46;		// java/lang/Object.<init>()V
 					return;
 		}
 
-		.method public static setKey(Ljavacard/security/Key;[B[B[S[S)Z 1 {
-			.stack 5;
+		.method public static setKey(Ljavacard/security/Key;B[BSS)Z 1 {
+			.stack 4;
 			.locals 0;
 
 			.descriptor	Ljavacard/security/Key;	1.0;
 
 				L0:	aload_0;
-					instanceof 0 15;		// T_CLASSORINTERFACE javacard/security/AESKey
+					instanceof 0 47;		// T_CLASSORINTERFACE javacard/security/AESKey
 					ifeq L2;
 				L1:	aload_0;
-					checkcast 0 15;		// T_CLASSORINTERFACE javacard/security/AESKey
-					aload_1;
-					aload_3;
-					sconst_0;
-					saload;
-					invokeinterface 3 15 4;		// javacard/security/AESKey
-					goto_w L17;
+					checkcast 0 47;		// T_CLASSORINTERFACE javacard/security/AESKey
+					aload_2;
+					sload_3;
+					invokeinterface 3 47 4;		// javacard/security/AESKey
+					goto L9;
 				L2:	aload_0;
-					instanceof 0 31;		// T_CLASSORINTERFACE javacard/security/DESKey
+					instanceof 0 48;		// T_CLASSORINTERFACE javacard/security/DESKey
 					ifeq L4;
 				L3:	aload_0;
-					checkcast 0 31;		// T_CLASSORINTERFACE javacard/security/DESKey
-					aload_1;
-					aload_3;
-					sconst_0;
-					saload;
-					invokeinterface 3 31 5;		// javacard/security/DESKey
-					goto_w L17;
+					checkcast 0 48;		// T_CLASSORINTERFACE javacard/security/DESKey
+					aload_2;
+					sload_3;
+					invokeinterface 3 48 5;		// javacard/security/DESKey
+					goto L9;
 				L4:	aload_0;
-					instanceof 0 3;		// T_CLASSORINTERFACE javacard/security/DSAPublicKey
+					instanceof 0 49;		// T_CLASSORINTERFACE javacard/security/ECPublicKey
 					ifeq L6;
 				L5:	aload_0;
-					checkcast 0 3;		// T_CLASSORINTERFACE javacard/security/DSAPublicKey
-					aload_2;
-					aload_3;
-					sconst_0;
-					saload;
-					aload 4;
-					sconst_0;
-					saload;
-					invokeinterface 4 3 7;		// javacard/security/DSAPublicKey
+					sload_1;
+					invokestatic 50;		// jcostest/AlternateKM.initECCurveParameters(Ljavacard/security/Key;B)V
 					aload_0;
-					checkcast 0 3;		// T_CLASSORINTERFACE javacard/security/DSAPublicKey
+					checkcast 0 49;		// T_CLASSORINTERFACE javacard/security/ECPublicKey
 					aload_2;
-					aload_3;
-					sconst_1;
-					saload;
-					aload 4;
-					sconst_1;
-					saload;
-					invokeinterface 4 3 8;		// javacard/security/DSAPublicKey
-					aload_0;
-					checkcast 0 3;		// T_CLASSORINTERFACE javacard/security/DSAPublicKey
-					aload_2;
-					aload_3;
-					sconst_2;
-					saload;
-					aload 4;
-					sconst_2;
-					saload;
-					invokeinterface 4 3 9;		// javacard/security/DSAPublicKey
-					aload_0;
-					checkcast 0 3;		// T_CLASSORINTERFACE javacard/security/DSAPublicKey
-					aload_1;
-					aload_3;
-					sconst_3;
-					saload;
-					aload 4;
-					sconst_3;
-					saload;
-					invokeinterface 4 3 11;		// javacard/security/DSAPublicKey
-					goto_w L17;
+					sload_3;
+					sload 4;
+					invokeinterface 4 49 18;		// javacard/security/ECPublicKey
+					goto L9;
 				L6:	aload_0;
-					instanceof 0 4;		// T_CLASSORINTERFACE javacard/security/DSAPrivateKey
+					instanceof 0 52;		// T_CLASSORINTERFACE javacard/security/ECPrivateKey
 					ifeq L8;
 				L7:	aload_0;
-					checkcast 0 4;		// T_CLASSORINTERFACE javacard/security/DSAPrivateKey
+					sload_1;
+					invokestatic 50;		// jcostest/AlternateKM.initECCurveParameters(Ljavacard/security/Key;B)V
+					aload_0;
+					checkcast 0 52;		// T_CLASSORINTERFACE javacard/security/ECPrivateKey
 					aload_2;
-					aload_3;
-					sconst_0;
-					saload;
-					aload 4;
-					sconst_0;
-					saload;
-					invokeinterface 4 4 7;		// javacard/security/DSAPrivateKey
-					aload_0;
-					checkcast 0 4;		// T_CLASSORINTERFACE javacard/security/DSAPrivateKey
-					aload_2;
-					aload_3;
-					sconst_1;
-					saload;
-					aload 4;
-					sconst_1;
-					saload;
-					invokeinterface 4 4 8;		// javacard/security/DSAPrivateKey
-					aload_0;
-					checkcast 0 4;		// T_CLASSORINTERFACE javacard/security/DSAPrivateKey
-					aload_2;
-					aload_3;
-					sconst_2;
-					saload;
-					aload 4;
-					sconst_2;
-					saload;
-					invokeinterface 4 4 9;		// javacard/security/DSAPrivateKey
-					aload_0;
-					checkcast 0 4;		// T_CLASSORINTERFACE javacard/security/DSAPrivateKey
-					aload_1;
-					aload_3;
-					sconst_3;
-					saload;
-					aload 4;
-					sconst_3;
-					saload;
-					invokeinterface 4 4 11;		// javacard/security/DSAPrivateKey
-					goto_w L17;
-				L8:	aload_0;
-					instanceof 0 5;		// T_CLASSORINTERFACE javacard/security/ECPublicKey
-					ifeq_w L10;
-				L9:	aload_0;
-					checkcast 0 5;		// T_CLASSORINTERFACE javacard/security/ECPublicKey
-					aload_1;
-					aload_3;
-					sconst_0;
-					saload;
-					aload 4;
-					sconst_0;
-					saload;
-					invokeinterface 4 5 7;		// javacard/security/ECPublicKey
-					aload_0;
-					checkcast 0 5;		// T_CLASSORINTERFACE javacard/security/ECPublicKey
-					aload_1;
-					aload_3;
-					sconst_1;
-					saload;
-					aload 4;
-					sconst_1;
-					saload;
-					invokeinterface 4 5 8;		// javacard/security/ECPublicKey
-					aload_0;
-					checkcast 0 5;		// T_CLASSORINTERFACE javacard/security/ECPublicKey
-					aload_1;
-					aload_3;
-					sconst_2;
-					saload;
-					aload 4;
-					sconst_2;
-					saload;
-					invokeinterface 4 5 4;		// javacard/security/ECPublicKey
-					aload_0;
-					checkcast 0 5;		// T_CLASSORINTERFACE javacard/security/ECPublicKey
-					aload_1;
-					aload_3;
-					sconst_3;
-					saload;
-					aload 4;
-					sconst_3;
-					saload;
-					invokeinterface 4 5 9;		// javacard/security/ECPublicKey
-					aload_0;
-					checkcast 0 5;		// T_CLASSORINTERFACE javacard/security/ECPublicKey
-					aload_1;
-					aload_3;
-					sconst_4;
-					saload;
-					aload 4;
-					sconst_4;
-					saload;
-					invokeinterface 4 5 10;		// javacard/security/ECPublicKey
-					aload_0;
-					checkcast 0 5;		// T_CLASSORINTERFACE javacard/security/ECPublicKey
-					aload_1;
-					aload_3;
-					sconst_5;
-					saload;
-					aload 4;
-					sconst_5;
-					saload;
-					invokeinterface 4 5 18;		// javacard/security/ECPublicKey
-					aload_0;
-					checkcast 0 5;		// T_CLASSORINTERFACE javacard/security/ECPublicKey
-					aload_1;
-					aload_3;
-					bspush 6;
-					saload;
-					baload;
-					sspush 255;
-					sand;
-					invokeinterface 2 5 11;		// javacard/security/ECPublicKey
-					goto_w L17;
-				L10:	aload_0;
-					instanceof 0 6;		// T_CLASSORINTERFACE javacard/security/ECPrivateKey
-					ifeq L12;
-				L11:	aload_0;
-					checkcast 0 6;		// T_CLASSORINTERFACE javacard/security/ECPrivateKey
-					aload_1;
-					aload_3;
-					sconst_0;
-					saload;
-					aload 4;
-					sconst_0;
-					saload;
-					invokeinterface 4 6 7;		// javacard/security/ECPrivateKey
-					aload_0;
-					checkcast 0 6;		// T_CLASSORINTERFACE javacard/security/ECPrivateKey
-					aload_1;
-					aload_3;
-					sconst_1;
-					saload;
-					aload 4;
-					sconst_1;
-					saload;
-					invokeinterface 4 6 8;		// javacard/security/ECPrivateKey
-					aload_0;
-					checkcast 0 6;		// T_CLASSORINTERFACE javacard/security/ECPrivateKey
-					aload_1;
-					aload_3;
-					sconst_2;
-					saload;
-					aload 4;
-					sconst_2;
-					saload;
-					invokeinterface 4 6 4;		// javacard/security/ECPrivateKey
-					aload_0;
-					checkcast 0 6;		// T_CLASSORINTERFACE javacard/security/ECPrivateKey
-					aload_1;
-					aload_3;
-					sconst_3;
-					saload;
-					aload 4;
-					sconst_3;
-					saload;
-					invokeinterface 4 6 9;		// javacard/security/ECPrivateKey
-					aload_0;
-					checkcast 0 6;		// T_CLASSORINTERFACE javacard/security/ECPrivateKey
-					aload_1;
-					aload_3;
-					sconst_4;
-					saload;
-					aload 4;
-					sconst_4;
-					saload;
-					invokeinterface 4 6 10;		// javacard/security/ECPrivateKey
-					aload_0;
-					checkcast 0 6;		// T_CLASSORINTERFACE javacard/security/ECPrivateKey
-					aload_1;
-					aload_3;
-					sconst_5;
-					saload;
-					aload 4;
-					sconst_5;
-					saload;
-					invokeinterface 4 6 18;		// javacard/security/ECPrivateKey
-					goto L17;
-				L12:	aload_0;
-					instanceof 0 7;		// T_CLASSORINTERFACE javacard/security/RSAPublicKey
-					ifeq L14;
-				L13:	aload_0;
-					checkcast 0 7;		// T_CLASSORINTERFACE javacard/security/RSAPublicKey
-					aload_1;
-					aload_3;
-					sconst_0;
-					saload;
-					aload 4;
-					sconst_0;
-					saload;
-					invokeinterface 4 7 7;		// javacard/security/RSAPublicKey
-					aload_0;
-					checkcast 0 7;		// T_CLASSORINTERFACE javacard/security/RSAPublicKey
-					aload_1;
-					aload_3;
-					sconst_1;
-					saload;
-					aload 4;
-					sconst_1;
-					saload;
-					invokeinterface 4 7 6;		// javacard/security/RSAPublicKey
-					goto L17;
-				L14:	aload_0;
-					instanceof 0 8;		// T_CLASSORINTERFACE javacard/security/RSAPrivateKey
-					ifeq L16;
-				L15:	aload_0;
-					checkcast 0 8;		// T_CLASSORINTERFACE javacard/security/RSAPrivateKey
-					aload_1;
-					aload_3;
-					sconst_0;
-					saload;
-					aload 4;
-					sconst_0;
-					saload;
-					invokeinterface 4 8 7;		// javacard/security/RSAPrivateKey
-					aload_0;
-					checkcast 0 8;		// T_CLASSORINTERFACE javacard/security/RSAPrivateKey
-					aload_1;
-					aload_3;
-					sconst_1;
-					saload;
-					aload 4;
-					sconst_1;
-					saload;
-					invokeinterface 4 8 6;		// javacard/security/RSAPrivateKey
-					goto L17;
-				L16:	sconst_0;
+					sload_3;
+					sload 4;
+					invokeinterface 4 52 18;		// javacard/security/ECPrivateKey
+					goto L9;
+				L8:	sconst_0;
 					sreturn;
-				L17:	sconst_1;
+				L9:	sconst_1;
 					sreturn;
 		}
 
-		.method public static setData([BS[BSS)V 2 {
+		.method public static initECCurveParameters(Ljavacard/security/Key;B)V 2 {
+			.stack 4;
+			.locals 0;
+
+			.descriptor	Ljavacard/security/Key;	1.0;
+
+				L0:	sload_1;
+					sconst_1;
+					if_scmpne L2;
+				L1:	aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 69;		// reference jcostest/Constants.ansix9p256r1_a
+					sconst_0;
+					getstatic_a 69;		// reference jcostest/Constants.ansix9p256r1_a
+					arraylength;
+					invokeinterface 4 66 3;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 70;		// reference jcostest/Constants.ansix9p256r1_b
+					sconst_0;
+					getstatic_a 70;		// reference jcostest/Constants.ansix9p256r1_b
+					arraylength;
+					invokeinterface 4 66 4;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 71;		// reference jcostest/Constants.ansix9p256r1_field
+					sconst_0;
+					getstatic_a 71;		// reference jcostest/Constants.ansix9p256r1_field
+					arraylength;
+					invokeinterface 4 66 0;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 72;		// reference jcostest/Constants.ansix9p256r1_g
+					sconst_0;
+					getstatic_a 72;		// reference jcostest/Constants.ansix9p256r1_g
+					arraylength;
+					invokeinterface 4 66 5;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 82;		// reference jcostest/Constants.ansix9p256r1_r
+					sconst_0;
+					getstatic_a 82;		// reference jcostest/Constants.ansix9p256r1_r
+					arraylength;
+					invokeinterface 4 66 6;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					sconst_1;
+					invokeinterface 2 66 7;		// javacard/security/ECKey
+					goto_w L14;
+				L2:	sload_1;
+					sconst_2;
+					if_scmpne L4;
+				L3:	aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 88;		// reference jcostest/Constants.ansix9p384r1_a
+					sconst_0;
+					getstatic_a 88;		// reference jcostest/Constants.ansix9p384r1_a
+					arraylength;
+					invokeinterface 4 66 3;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 107;		// reference jcostest/Constants.ansix9p384r1_b
+					sconst_0;
+					getstatic_a 107;		// reference jcostest/Constants.ansix9p384r1_b
+					arraylength;
+					invokeinterface 4 66 4;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 14;		// reference jcostest/Constants.ansix9p384r1_field
+					sconst_0;
+					getstatic_a 14;		// reference jcostest/Constants.ansix9p384r1_field
+					arraylength;
+					invokeinterface 4 66 0;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 15;		// reference jcostest/Constants.ansix9p384r1_g
+					sconst_0;
+					getstatic_a 15;		// reference jcostest/Constants.ansix9p384r1_g
+					arraylength;
+					invokeinterface 4 66 5;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 16;		// reference jcostest/Constants.ansix9p384r1_r
+					sconst_0;
+					getstatic_a 16;		// reference jcostest/Constants.ansix9p384r1_r
+					arraylength;
+					invokeinterface 4 66 6;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					sconst_1;
+					invokeinterface 2 66 7;		// javacard/security/ECKey
+					goto_w L14;
+				L4:	sload_1;
+					sconst_3;
+					if_scmpne L6;
+				L5:	aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 17;		// reference jcostest/Constants.ansix9p521r1_a
+					sconst_0;
+					getstatic_a 17;		// reference jcostest/Constants.ansix9p521r1_a
+					arraylength;
+					invokeinterface 4 66 3;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 18;		// reference jcostest/Constants.ansix9p521r1_b
+					sconst_0;
+					getstatic_a 18;		// reference jcostest/Constants.ansix9p521r1_b
+					arraylength;
+					invokeinterface 4 66 4;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 19;		// reference jcostest/Constants.ansix9p521r1_field
+					sconst_0;
+					getstatic_a 19;		// reference jcostest/Constants.ansix9p521r1_field
+					arraylength;
+					invokeinterface 4 66 0;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 20;		// reference jcostest/Constants.ansix9p521r1_g
+					sconst_0;
+					getstatic_a 20;		// reference jcostest/Constants.ansix9p521r1_g
+					arraylength;
+					invokeinterface 4 66 5;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 21;		// reference jcostest/Constants.ansix9p521r1_r
+					sconst_0;
+					getstatic_a 21;		// reference jcostest/Constants.ansix9p521r1_r
+					arraylength;
+					invokeinterface 4 66 6;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					sconst_1;
+					invokeinterface 2 66 7;		// javacard/security/ECKey
+					goto_w L14;
+				L6:	sload_1;
+					sconst_4;
+					if_scmpne L8;
+				L7:	aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 22;		// reference jcostest/Constants.SECP256K1_A
+					sconst_0;
+					getstatic_a 22;		// reference jcostest/Constants.SECP256K1_A
+					arraylength;
+					invokeinterface 4 66 3;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 23;		// reference jcostest/Constants.SECP256K1_B
+					sconst_0;
+					getstatic_a 23;		// reference jcostest/Constants.SECP256K1_B
+					arraylength;
+					invokeinterface 4 66 4;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 24;		// reference jcostest/Constants.SECP256K1_FIELD
+					sconst_0;
+					getstatic_a 24;		// reference jcostest/Constants.SECP256K1_FIELD
+					arraylength;
+					invokeinterface 4 66 0;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 25;		// reference jcostest/Constants.SECP256K1_G
+					sconst_0;
+					getstatic_a 25;		// reference jcostest/Constants.SECP256K1_G
+					arraylength;
+					invokeinterface 4 66 5;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 26;		// reference jcostest/Constants.SECP256K1_R
+					sconst_0;
+					getstatic_a 26;		// reference jcostest/Constants.SECP256K1_R
+					arraylength;
+					invokeinterface 4 66 6;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					sconst_1;
+					invokeinterface 2 66 7;		// javacard/security/ECKey
+					goto_w L14;
+				L8:	sload_1;
+					sconst_5;
+					if_scmpne L10;
+				L9:	aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 27;		// reference jcostest/Constants.brainpoolP256r1_a
+					sconst_0;
+					getstatic_a 27;		// reference jcostest/Constants.brainpoolP256r1_a
+					arraylength;
+					invokeinterface 4 66 3;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 28;		// reference jcostest/Constants.brainpoolP256r1_b
+					sconst_0;
+					getstatic_a 28;		// reference jcostest/Constants.brainpoolP256r1_b
+					arraylength;
+					invokeinterface 4 66 4;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 29;		// reference jcostest/Constants.brainpoolP256r1_field
+					sconst_0;
+					getstatic_a 29;		// reference jcostest/Constants.brainpoolP256r1_field
+					arraylength;
+					invokeinterface 4 66 0;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 30;		// reference jcostest/Constants.brainpoolP256r1_g
+					sconst_0;
+					getstatic_a 30;		// reference jcostest/Constants.brainpoolP256r1_g
+					arraylength;
+					invokeinterface 4 66 5;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 31;		// reference jcostest/Constants.brainpoolP256r1_r
+					sconst_0;
+					getstatic_a 31;		// reference jcostest/Constants.brainpoolP256r1_r
+					arraylength;
+					invokeinterface 4 66 6;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					sconst_1;
+					invokeinterface 2 66 7;		// javacard/security/ECKey
+					goto_w L14;
+				L10:	sload_1;
+					bspush 6;
+					if_scmpne L12;
+				L11:	aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 32;		// reference jcostest/Constants.brainpoolP384r1_a
+					sconst_0;
+					getstatic_a 32;		// reference jcostest/Constants.brainpoolP384r1_a
+					arraylength;
+					invokeinterface 4 66 3;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 33;		// reference jcostest/Constants.brainpoolP384r1_b
+					sconst_0;
+					getstatic_a 33;		// reference jcostest/Constants.brainpoolP384r1_b
+					arraylength;
+					invokeinterface 4 66 4;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 34;		// reference jcostest/Constants.brainpoolP384r1_field
+					sconst_0;
+					getstatic_a 34;		// reference jcostest/Constants.brainpoolP384r1_field
+					arraylength;
+					invokeinterface 4 66 0;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 35;		// reference jcostest/Constants.brainpoolP384r1_g
+					sconst_0;
+					getstatic_a 35;		// reference jcostest/Constants.brainpoolP384r1_g
+					arraylength;
+					invokeinterface 4 66 5;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 36;		// reference jcostest/Constants.brainpoolP384r1_r
+					sconst_0;
+					getstatic_a 36;		// reference jcostest/Constants.brainpoolP384r1_r
+					arraylength;
+					invokeinterface 4 66 6;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					sconst_1;
+					invokeinterface 2 66 7;		// javacard/security/ECKey
+					goto L14;
+				L12:	sload_1;
+					bspush 7;
+					if_scmpne L14;
+				L13:	aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 37;		// reference jcostest/Constants.brainpoolP512r1_a
+					sconst_0;
+					getstatic_a 37;		// reference jcostest/Constants.brainpoolP512r1_a
+					arraylength;
+					invokeinterface 4 66 3;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 38;		// reference jcostest/Constants.brainpoolP512r1_b
+					sconst_0;
+					getstatic_a 38;		// reference jcostest/Constants.brainpoolP512r1_b
+					arraylength;
+					invokeinterface 4 66 4;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 39;		// reference jcostest/Constants.brainpoolP512r1_field
+					sconst_0;
+					getstatic_a 39;		// reference jcostest/Constants.brainpoolP512r1_field
+					arraylength;
+					invokeinterface 4 66 0;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 40;		// reference jcostest/Constants.brainpoolP512r1_g
+					sconst_0;
+					getstatic_a 40;		// reference jcostest/Constants.brainpoolP512r1_g
+					arraylength;
+					invokeinterface 4 66 5;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 41;		// reference jcostest/Constants.brainpoolP512r1_r
+					sconst_0;
+					getstatic_a 41;		// reference jcostest/Constants.brainpoolP512r1_r
+					arraylength;
+					invokeinterface 4 66 6;		// javacard/security/ECKey
+					aload_0;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					sconst_1;
+					invokeinterface 2 66 7;		// javacard/security/ECKey
+				L14:	return;
+		}
+
+		.method public static setData([BS[BSS)V 3 {
 			.stack 5;
 			.locals 0;
 
@@ -437,7 +675,7 @@
 					aload_2;
 					sload_3;
 					sload 4;
-					invokestatic 9;		// javacard/framework/Util.arrayCopy([BS[BSS)S
+					invokestatic 42;		// javacard/framework/Util.arrayCopy([BS[BSS)S
 					pop;
 					return;
 		}
@@ -477,6 +715,11 @@
 			protected static byte[] brainpoolP512r1_b 27 = {61,-7,22,16,-88,52,65,-54,-22,-104,99,-68,45,-19,93,90,-88,37,58,-95,10,46,-15,-55,-117,-102,-56,-75,127,17,23,-89,43,-14,-57,-71,-25,-63,-84,77,119,-4,-108,-54,-36,8,62,103,-104,64,80,-73,94,-70,-27,-35,40,9,-67,99,-128,22,-9,35};		// [B
 			protected static byte[] brainpoolP512r1_g 28 = {4,-127,-82,-28,-67,-40,46,-39,100,90,33,50,46,-100,76,106,-109,-123,-19,-97,112,-75,-39,22,-63,-76,59,98,-18,-12,-48,9,-114,-1,59,31,120,-30,-48,-44,-115,80,-47,104,123,-109,-71,125,95,124,109,80,71,64,106,94,104,-117,53,34,9,-68,-71,-8,34,125,-34,56,93,86,99,50,-20,-64,-22,-65,-87,-49,120,34,-3,-14,9,-9,0,36,-91,123,26,-96,0,-59,91,-120,31,-127,17,-78,-36,-34,73,74,95,72,94,91,-54,75,-40,-118,39,99,-82,-47,-54,43,47,-88,-16,84,6,120,-51,30,15,58,-40,8,-110};		// [B
 			protected static byte[] brainpoolP512r1_r 29 = {-86,-35,-99,-72,-37,-23,-60,-117,63,-44,-26,-82,51,-55,-4,7,-53,48,-115,-77,-77,-55,-46,14,-42,99,-100,-54,112,51,8,112,85,62,92,65,76,-87,38,25,65,-122,97,25,127,-84,16,71,29,-79,-45,-127,8,93,-38,-35,-75,-121,-106,-126,-100,-87,0,105};		// [B
+			protected static final byte[] SECP256K1_FIELD 30 = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-2,-1,-1,-4,47};		// [B
+			protected static final byte[] SECP256K1_A 31 = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};		// [B
+			protected static final byte[] SECP256K1_B 32 = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7};		// [B
+			protected static final byte[] SECP256K1_G 33 = {4,121,-66,102,126,-7,-36,-69,-84,85,-96,98,-107,-50,-121,11,7,2,-101,-4,-37,45,-50,40,-39,89,-14,-127,91,22,-8,23,-104,72,58,-38,119,38,-93,-60,101,93,-92,-5,-4,14,17,8,-88,-3,23,-76,72,-90,-123,84,25,-100,71,-48,-113,-5,16,-44,-72};		// [B
+			static final byte[] SECP256K1_R = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-2,-70,-82,-36,-26,-81,72,-96,59,-65,-46,94,-116,-48,54,65,65};		// [B
 		}
 
 		.publicMethodTable 1 {
@@ -491,7 +734,7 @@
 			.locals 0;
 
 				L0:	aload_0;
-					invokespecial 13;		// java/lang/Object.<init>()V
+					invokespecial 46;		// java/lang/Object.<init>()V
 					return;
 		}
 
@@ -503,13 +746,19 @@
 			public byte[] arbitraryData 0;		// [B
 			private 1.11 md 1;		// Ljavacard/security/MessageDigest;
 			private 1.15 signer 2;		// Ljavacard/security/Signature;
-			private 1.0 testKey1 3;		// Ljavacard/security/Key;
-			private 1.0 testKey2 4;		// Ljavacard/security/Key;
-			private 1.0 testKey3 5;		// Ljavacard/security/Key;
-			private 1.0 testKey4 6;		// Ljavacard/security/Key;
-			private 1.16 testKeyPair1 7;		// Ljavacard/security/KeyPair;
-			private 1.16 testKeyPair2 8;		// Ljavacard/security/KeyPair;
-			private byte[] b0 9;		// [B
+			private 3.1 cipher 3;		// Ljavacardx/crypto/Cipher;
+			private 1.22 ka 4;		// Ljavacard/security/KeyAgreement;
+			private 1.0 testKey1 5;		// Ljavacard/security/Key;
+			private 1.0 testKey2 6;		// Ljavacard/security/Key;
+			private 1.0 testKey3 7;		// Ljavacard/security/Key;
+			private 1.0 testKey4 8;		// Ljavacard/security/Key;
+			private 1.16 testKeyPair1 9;		// Ljavacard/security/KeyPair;
+			private 1.16 testKeyPair2 10;		// Ljavacard/security/KeyPair;
+			private byte[] b0 11;		// [B
+			private byte testKey1Type 12;		// B
+			private byte testKey2Type 13;		// B
+			private byte testKey3Type 14;		// B
+			private byte testKey4Type 15;		// B
 			public static final byte INS_SET_KEY = 1;		// B
 			public static final byte INS_SET_DATA = 2;		// B
 			public static final byte INS_ENCRYPT = 3;		// B
@@ -524,8 +773,17 @@
 			public static final byte P1_RESET = 4;		// B
 			public static final byte P1_UPDATE = 5;		// B
 			public static final byte P1_FINAL = 6;		// B
-			public static final byte P2_PART_MAIN = 1;		// B
-			public static final byte P2_PART_SUB = 2;		// B
+			public static final byte P1_LOAD_FROM_MAIN = 7;		// B
+			public static final byte P1_LOAD_FROM_SUB = 8;		// B
+			public static final byte KEY_EC_SECP_256_R1 = 1;		// B
+			public static final byte KEY_EC_SECP_384_R1 = 2;		// B
+			public static final byte KEY_EC_SECP_521_R1 = 3;		// B
+			public static final byte KEY_EC_SECP_256_K1 = 4;		// B
+			public static final byte KEY_EC_BRAINPOOL_256_R1 = 5;		// B
+			public static final byte KEY_EC_BRAINPOOL_384_R1 = 6;		// B
+			public static final byte KEY_EC_BRAINPOOL_512_R1 = 7;		// B
+			public static final short SW_NOT_SET = 17;		// S
+			public static final short SW_UNKNOWN_KEY_TYPE = -63;		// S
 		}
 
 		.publicMethodTable 7 {
@@ -537,9 +795,16 @@
 			getShareableInterfaceObject(Ljavacard/framework/AID;B)Ljavacard/framework/Shareable;;
 			select()Z;
 			process(Ljavacard/framework/APDU;)V;
+			encrypt(Ljavacard/framework/APDU;[B)V;
+			decrypt(Ljavacard/framework/APDU;[B)V;
+			derive(Ljavacard/framework/APDU;[B)V;
+			sign(Ljavacard/framework/APDU;[B)V;
+			verify(Ljavacard/framework/APDU;[B)V;
 			setKey(Ljavacard/framework/APDU;[B)V;
 			setData(Ljavacard/framework/APDU;[B)V;
 			doHash(Ljavacard/framework/APDU;[B)V;
+			setKey(Ljavacard/security/Key;B[BSS)Z;
+			initECCurveParameters(Ljavacard/security/Key;B)V;
 		}
 
 		.packageMethodTable 0 {
@@ -549,8 +814,8 @@
 			.stack 1;
 			.locals 0;
 
-				L0:	new 10;		// jcostest/JCOSTestApplet
-					invokespecial 11;		// jcostest/JCOSTestApplet.<init>()V
+				L0:	new 43;		// jcostest/JCOSTestApplet
+					invokespecial 44;		// jcostest/JCOSTestApplet.<init>()V
 					return;
 		}
 
@@ -559,17 +824,29 @@
 			.locals 0;
 
 				L0:	aload_0;
-					invokespecial 12;		// javacard/framework/Applet.<init>()V
+					invokespecial 45;		// javacard/framework/Applet.<init>()V
+					aload_0;
+					sconst_0;
+					putfield_b 0;		// byte jcostest/JCOSTestApplet.testKey1Type
+					aload_0;
+					sconst_0;
+					putfield_b 1;		// byte jcostest/JCOSTestApplet.testKey2Type
+					aload_0;
+					sconst_0;
+					putfield_b 2;		// byte jcostest/JCOSTestApplet.testKey3Type
+					aload_0;
+					sconst_0;
+					putfield_b 3;		// byte jcostest/JCOSTestApplet.testKey4Type
 					aload_0;
 					aconst_null;
-					putfield_a 0;		// reference jcostest/JCOSTestApplet.arbitraryData
+					putfield_a 4;		// reference jcostest/JCOSTestApplet.arbitraryData
 					aload_0;
 					bspush 100;
 					sconst_1;
-					invokestatic 14;		// javacard/framework/JCSystem.makeTransientByteArray(SB)[B
-					putfield_a 1;		// reference jcostest/JCOSTestApplet.b0
+					invokestatic 51;		// javacard/framework/JCSystem.makeTransientByteArray(SB)[B
+					putfield_a 5;		// reference jcostest/JCOSTestApplet.b0
 					aload_0;
-					invokevirtual 16;		// register()V
+					invokevirtual 53;		// register()V
 					return;
 		}
 
@@ -580,11 +857,11 @@
 			.descriptor	Ljavacard/framework/APDU;	2.10;
 
 				L0:	aload_0;
-					invokevirtual 17;		// selectingApplet()Z
+					invokevirtual 54;		// selectingApplet()Z
 					ifeq L2;
 				L1:	return;
 				L2:	aload_1;
-					invokevirtual 18;		// getBuffer()[B
+					invokevirtual 55;		// getBuffer()[B
 					astore_2;
 				L3:	aload_2;
 					sconst_1;
@@ -594,35 +871,51 @@
 					sstore 4;
 				L5:	sload_3;
 					stableswitch L14 1 8 L6 L7 L8 L9 L10 L11 L12 L13;
-				L6:	goto L15;
+				L6:	aload_0;
+					aload_1;
+					aload_2;
+					invokevirtual 56;		// setKey(Ljavacard/framework/APDU;[B)V
+					goto L15;
 				L7:	aload_0;
 					aload_1;
 					aload_2;
-					invokevirtual 19;		// setData(Ljavacard/framework/APDU;[B)V
+					invokevirtual 57;		// setData(Ljavacard/framework/APDU;[B)V
 					goto L15;
-				L8:	goto L15;
-				L9:	goto L15;
-				L10:	goto L15;
+				L8:	aload_0;
+					aload_1;
+					aload_2;
+					invokevirtual 58;		// encrypt(Ljavacard/framework/APDU;[B)V
+					goto L15;
+				L9:	aload_0;
+					aload_1;
+					aload_2;
+					invokevirtual 59;		// decrypt(Ljavacard/framework/APDU;[B)V
+					goto L15;
+				L10:	aload_0;
+					aload_1;
+					aload_2;
+					invokevirtual 60;		// derive(Ljavacard/framework/APDU;[B)V
+					goto L15;
 				L11:	aload_0;
 					aload_1;
 					aload_2;
-					invokevirtual 20;		// doHash(Ljavacard/framework/APDU;[B)V
+					invokevirtual 61;		// doHash(Ljavacard/framework/APDU;[B)V
 					goto L15;
 				L12:	goto L15;
 				L13:	goto L15;
 				L14:	sspush 27904;
-					invokestatic 21;		// javacard/framework/ISOException.throwIt(S)V
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
 				L15:	return;
 		}
 
-		.method public setKey(Ljavacard/framework/APDU;[B)V 8 {
-			.stack 2;
-			.locals 3;
+		.method public encrypt(Ljavacard/framework/APDU;[B)V 8 {
+			.stack 6;
+			.locals 5;
 
 			.descriptor	Ljavacard/framework/APDU;	2.10;
 
 				L0:	aload_1;
-					invokevirtual 22;		// setIncomingAndReceive()S
+					invokevirtual 64;		// setIncomingAndReceive()S
 					sstore_3;
 				L1:	aload_2;
 					sconst_2;
@@ -633,26 +926,1109 @@
 					baload;
 					sstore 5;
 				L3:	sload 4;
-					stableswitch L8 1 3 L4 L6 L7;
-				L4:	sload 5;
+					stableswitch L37 1 6 L4 L37 L9 L12 L25 L31;
+				L4:	aload_0;
+					sload 5;
+					sconst_0;
+					invokestatic 65;		// javacardx/crypto/Cipher.getInstance(BZ)Ljavacardx/crypto/Cipher;
+					putfield_a 6;		// reference jcostest/JCOSTestApplet.cipher
+				L5:	goto_w L38;
+				L6:	astore 6;
+				L7:	sspush 27265;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L8:	goto_w L38;
+				L9:	getfield_a_this 6;		// reference jcostest/JCOSTestApplet.cipher
+					ifnull L11;
+				L10:	aload_2;
+					sconst_0;
+					getfield_a_this 6;		// reference jcostest/JCOSTestApplet.cipher
+					invokevirtual 67;		// getAlgorithm()B
+					bastore;
+					aload_1;
+					sconst_0;
 					sconst_1;
-					if_scmpeq L9;
-				L5:	goto L9;
-				L6:	goto L9;
-				L7:	goto L9;
-				L8:	sspush 27270;
-					invokestatic 21;		// javacard/framework/ISOException.throwIt(S)V
-				L9:	return;
+					invokevirtual 68;		// setOutgoingAndSend(SS)V
+					goto_w L38;
+				L11:	sspush 25088;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L38;
+				L12:	aconst_null;
+					astore 6;
+				L13:	sload 5;
+					sconst_1;
+					if_scmpne L15;
+				L14:	getfield_a_this 7;		// reference jcostest/JCOSTestApplet.testKey1
+					astore 6;
+					goto L22;
+				L15:	sload 5;
+					sconst_2;
+					if_scmpne L17;
+				L16:	getfield_a_this 8;		// reference jcostest/JCOSTestApplet.testKey2
+					astore 6;
+					goto L22;
+				L17:	sload 5;
+					sconst_3;
+					if_scmpne L19;
+				L18:	getfield_a_this 9;		// reference jcostest/JCOSTestApplet.testKey3
+					astore 6;
+					goto L22;
+				L19:	sload 5;
+					sconst_4;
+					if_scmpne L21;
+				L20:	getfield_a_this 10;		// reference jcostest/JCOSTestApplet.testKey4
+					astore 6;
+					goto L22;
+				L21:	sspush 27267;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L22:	aload 6;
+					invokeinterface 1 73 3;		// javacard/security/Key
+					ifeq L24;
+				L23:	getfield_a_this 6;		// reference jcostest/JCOSTestApplet.cipher
+					aload 6;
+					sconst_2;
+					aload_2;
+					aload_1;
+					invokevirtual 74;		// getOffsetCdata()S
+					sload_3;
+					invokevirtual 75;		// init(Ljavacard/security/Key;B[BSS)V
+					goto L38;
+				L24:	bspush 17;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+					goto L38;
+				L25:	getfield_a_this 6;		// reference jcostest/JCOSTestApplet.cipher
+					aload_2;
+					aload_1;
+					invokevirtual 74;		// getOffsetCdata()S
+					sload_3;
+					getfield_a_this 5;		// reference jcostest/JCOSTestApplet.b0
+					sconst_0;
+					invokevirtual 76;		// update([BSS[BS)S
+					sstore 7;
+				L26:	aload_1;
+					invokevirtual 77;		// setOutgoing()S
+					pop;
+					aload_1;
+					sload 7;
+					invokevirtual 78;		// setOutgoingLength(S)V
+					aload_1;
+					getfield_a_this 5;		// reference jcostest/JCOSTestApplet.b0
+					sconst_0;
+					sload 7;
+					invokevirtual 79;		// sendBytesLong([BSS)V
+				L27:	goto L38;
+				L28:	astore 7;
+				L29:	sspush 27013;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L30:	goto L38;
+				L31:	getfield_a_this 6;		// reference jcostest/JCOSTestApplet.cipher
+					aload_2;
+					aload_1;
+					invokevirtual 74;		// getOffsetCdata()S
+					sload_3;
+					getfield_a_this 5;		// reference jcostest/JCOSTestApplet.b0
+					sconst_0;
+					invokevirtual 80;		// doFinal([BSS[BS)S
+					sstore 7;
+				L32:	aload_1;
+					invokevirtual 77;		// setOutgoing()S
+					pop;
+					aload_1;
+					sload 7;
+					invokevirtual 78;		// setOutgoingLength(S)V
+					aload_1;
+					getfield_a_this 5;		// reference jcostest/JCOSTestApplet.b0
+					sconst_0;
+					sload 7;
+					invokevirtual 79;		// sendBytesLong([BSS)V
+				L33:	goto L38;
+				L34:	astore 7;
+				L35:	sspush 27013;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L36:	goto L38;
+				L37:	sspush 27270;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L38:	return;
+			.exceptionTable {
+				// start_block end_block handler_block catch_type_index
+				L4 L5 L6 63;
+				L25 L27 L28 63;
+				L31 L33 L34 63;
+			}
 		}
 
-		.method public setData(Ljavacard/framework/APDU;[B)V 9 {
+		.method public decrypt(Ljavacard/framework/APDU;[B)V 9 {
+			.stack 6;
+			.locals 5;
+
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+				L0:	aload_1;
+					invokevirtual 64;		// setIncomingAndReceive()S
+					sstore_3;
+				L1:	aload_2;
+					sconst_2;
+					baload;
+					sstore 4;
+				L2:	aload_2;
+					sconst_3;
+					baload;
+					sstore 5;
+				L3:	sload 4;
+					stableswitch L37 1 6 L4 L37 L9 L12 L25 L31;
+				L4:	aload_0;
+					sload 5;
+					sconst_0;
+					invokestatic 65;		// javacardx/crypto/Cipher.getInstance(BZ)Ljavacardx/crypto/Cipher;
+					putfield_a 6;		// reference jcostest/JCOSTestApplet.cipher
+				L5:	goto_w L38;
+				L6:	astore 6;
+				L7:	sspush 27265;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L8:	goto_w L38;
+				L9:	getfield_a_this 6;		// reference jcostest/JCOSTestApplet.cipher
+					ifnull L11;
+				L10:	aload_2;
+					sconst_0;
+					getfield_a_this 6;		// reference jcostest/JCOSTestApplet.cipher
+					invokevirtual 67;		// getAlgorithm()B
+					bastore;
+					aload_1;
+					sconst_0;
+					sconst_1;
+					invokevirtual 68;		// setOutgoingAndSend(SS)V
+					goto_w L38;
+				L11:	sspush 25088;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L38;
+				L12:	aconst_null;
+					astore 6;
+				L13:	sload 5;
+					sconst_1;
+					if_scmpne L15;
+				L14:	getfield_a_this 7;		// reference jcostest/JCOSTestApplet.testKey1
+					astore 6;
+					goto L22;
+				L15:	sload 5;
+					sconst_2;
+					if_scmpne L17;
+				L16:	getfield_a_this 8;		// reference jcostest/JCOSTestApplet.testKey2
+					astore 6;
+					goto L22;
+				L17:	sload 5;
+					sconst_3;
+					if_scmpne L19;
+				L18:	getfield_a_this 9;		// reference jcostest/JCOSTestApplet.testKey3
+					astore 6;
+					goto L22;
+				L19:	sload 5;
+					sconst_4;
+					if_scmpne L21;
+				L20:	getfield_a_this 10;		// reference jcostest/JCOSTestApplet.testKey4
+					astore 6;
+					goto L22;
+				L21:	sspush 27267;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L22:	aload 6;
+					invokeinterface 1 73 3;		// javacard/security/Key
+					ifeq L24;
+				L23:	getfield_a_this 6;		// reference jcostest/JCOSTestApplet.cipher
+					aload 6;
+					sconst_1;
+					aload_2;
+					aload_1;
+					invokevirtual 74;		// getOffsetCdata()S
+					sload_3;
+					invokevirtual 75;		// init(Ljavacard/security/Key;B[BSS)V
+					goto L38;
+				L24:	bspush 17;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+					goto L38;
+				L25:	getfield_a_this 6;		// reference jcostest/JCOSTestApplet.cipher
+					aload_2;
+					aload_1;
+					invokevirtual 74;		// getOffsetCdata()S
+					sload_3;
+					getfield_a_this 5;		// reference jcostest/JCOSTestApplet.b0
+					sconst_0;
+					invokevirtual 76;		// update([BSS[BS)S
+					sstore 7;
+				L26:	aload_1;
+					invokevirtual 77;		// setOutgoing()S
+					pop;
+					aload_1;
+					sload 7;
+					invokevirtual 78;		// setOutgoingLength(S)V
+					aload_1;
+					getfield_a_this 5;		// reference jcostest/JCOSTestApplet.b0
+					sconst_0;
+					sload 7;
+					invokevirtual 79;		// sendBytesLong([BSS)V
+				L27:	goto L38;
+				L28:	astore 7;
+				L29:	sspush 27013;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L30:	goto L38;
+				L31:	getfield_a_this 6;		// reference jcostest/JCOSTestApplet.cipher
+					aload_2;
+					aload_1;
+					invokevirtual 74;		// getOffsetCdata()S
+					sload_3;
+					getfield_a_this 5;		// reference jcostest/JCOSTestApplet.b0
+					sconst_0;
+					invokevirtual 80;		// doFinal([BSS[BS)S
+					sstore 7;
+				L32:	aload_1;
+					invokevirtual 77;		// setOutgoing()S
+					pop;
+					aload_1;
+					sload 7;
+					invokevirtual 78;		// setOutgoingLength(S)V
+					aload_1;
+					getfield_a_this 5;		// reference jcostest/JCOSTestApplet.b0
+					sconst_0;
+					sload 7;
+					invokevirtual 79;		// sendBytesLong([BSS)V
+				L33:	goto L38;
+				L34:	astore 7;
+				L35:	sspush 27013;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L36:	goto L38;
+				L37:	sspush 27270;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L38:	return;
+			.exceptionTable {
+				// start_block end_block handler_block catch_type_index
+				L4 L5 L6 63;
+				L25 L27 L28 63;
+				L31 L33 L34 63;
+			}
+		}
+
+		.method public derive(Ljavacard/framework/APDU;[B)V 10 {
+			.stack 6;
+			.locals 5;
+
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+				L0:	aload_1;
+					invokevirtual 64;		// setIncomingAndReceive()S
+					sstore_3;
+				L1:	aload_2;
+					sconst_2;
+					baload;
+					sstore 4;
+				L2:	aload_2;
+					sconst_3;
+					baload;
+					sstore 5;
+				L3:	sload 4;
+					stableswitch L31 1 6 L4 L31 L9 L12 L31 L25;
+				L4:	aload_0;
+					sload 5;
+					sconst_0;
+					invokestatic 81;		// javacard/security/KeyAgreement.getInstance(BZ)Ljavacard/security/KeyAgreement;
+					putfield_a 11;		// reference jcostest/JCOSTestApplet.ka
+				L5:	goto_w L32;
+				L6:	astore 6;
+				L7:	sspush 27265;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L8:	goto_w L32;
+				L9:	getfield_a_this 11;		// reference jcostest/JCOSTestApplet.ka
+					ifnull L11;
+				L10:	aload_2;
+					sconst_0;
+					getfield_a_this 11;		// reference jcostest/JCOSTestApplet.ka
+					invokevirtual 83;		// getAlgorithm()B
+					bastore;
+					aload_1;
+					sconst_0;
+					sconst_1;
+					invokevirtual 68;		// setOutgoingAndSend(SS)V
+					goto_w L32;
+				L11:	sspush 25088;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L32;
+				L12:	aconst_null;
+					astore 6;
+				L13:	sload 5;
+					sconst_1;
+					if_scmpne L15;
+				L14:	getfield_a_this 7;		// reference jcostest/JCOSTestApplet.testKey1
+					astore 6;
+					goto L22;
+				L15:	sload 5;
+					sconst_2;
+					if_scmpne L17;
+				L16:	getfield_a_this 8;		// reference jcostest/JCOSTestApplet.testKey2
+					astore 6;
+					goto L22;
+				L17:	sload 5;
+					sconst_3;
+					if_scmpne L19;
+				L18:	getfield_a_this 9;		// reference jcostest/JCOSTestApplet.testKey3
+					astore 6;
+					goto L22;
+				L19:	sload 5;
+					sconst_4;
+					if_scmpne L21;
+				L20:	getfield_a_this 10;		// reference jcostest/JCOSTestApplet.testKey4
+					astore 6;
+					goto L22;
+				L21:	sspush 27267;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L22:	aload 6;
+					invokeinterface 1 73 3;		// javacard/security/Key
+					ifeq L24;
+				L23:	getfield_a_this 11;		// reference jcostest/JCOSTestApplet.ka
+					aload 6;
+					checkcast 0 84;		// T_CLASSORINTERFACE javacard/security/PrivateKey
+					invokevirtual 85;		// init(Ljavacard/security/PrivateKey;)V
+					goto L32;
+				L24:	bspush 17;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+					goto L32;
+				L25:	getfield_a_this 11;		// reference jcostest/JCOSTestApplet.ka
+					aload_2;
+					aload_1;
+					invokevirtual 74;		// getOffsetCdata()S
+					sload_3;
+					getfield_a_this 5;		// reference jcostest/JCOSTestApplet.b0
+					sconst_0;
+					invokevirtual 86;		// generateSecret([BSS[BS)S
+					sstore 7;
+				L26:	aload_1;
+					invokevirtual 77;		// setOutgoing()S
+					pop;
+					aload_1;
+					sload 7;
+					invokevirtual 78;		// setOutgoingLength(S)V
+					aload_1;
+					getfield_a_this 5;		// reference jcostest/JCOSTestApplet.b0
+					sconst_0;
+					sload 7;
+					invokevirtual 79;		// sendBytesLong([BSS)V
+				L27:	goto L32;
+				L28:	astore 7;
+				L29:	sspush 27013;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L30:	goto L32;
+				L31:	sspush 27270;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L32:	return;
+			.exceptionTable {
+				// start_block end_block handler_block catch_type_index
+				L4 L5 L6 63;
+				L25 L27 L28 63;
+			}
+		}
+
+		.method public sign(Ljavacard/framework/APDU;[B)V 11 {
+			.stack 6;
+			.locals 5;
+
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+				L0:	aload_1;
+					invokevirtual 64;		// setIncomingAndReceive()S
+					sstore_3;
+				L1:	aload_2;
+					sconst_2;
+					baload;
+					sstore 4;
+				L2:	aload_2;
+					sconst_3;
+					baload;
+					sstore 5;
+				L3:	sload 4;
+					stableswitch L38 1 6 L4 L38 L9 L12 L27 L32;
+				L4:	aload_0;
+					sload 5;
+					sconst_0;
+					invokestatic 87;		// javacard/security/Signature.getInstance(BZ)Ljavacard/security/Signature;
+					putfield_a 12;		// reference jcostest/JCOSTestApplet.signer
+				L5:	goto_w L39;
+				L6:	astore 6;
+				L7:	sspush 27265;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L8:	goto_w L39;
+				L9:	getfield_a_this 6;		// reference jcostest/JCOSTestApplet.cipher
+					ifnull L11;
+				L10:	aload_2;
+					sconst_0;
+					getfield_a_this 6;		// reference jcostest/JCOSTestApplet.cipher
+					invokevirtual 67;		// getAlgorithm()B
+					bastore;
+					aload_1;
+					sconst_0;
+					sconst_1;
+					invokevirtual 68;		// setOutgoingAndSend(SS)V
+					goto_w L39;
+				L11:	sspush 25088;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L39;
+				L12:	aconst_null;
+					astore 6;
+				L13:	sload 5;
+					sconst_1;
+					if_scmpne L15;
+				L14:	getfield_a_this 7;		// reference jcostest/JCOSTestApplet.testKey1
+					astore 6;
+					goto L22;
+				L15:	sload 5;
+					sconst_2;
+					if_scmpne L17;
+				L16:	getfield_a_this 8;		// reference jcostest/JCOSTestApplet.testKey2
+					astore 6;
+					goto L22;
+				L17:	sload 5;
+					sconst_3;
+					if_scmpne L19;
+				L18:	getfield_a_this 9;		// reference jcostest/JCOSTestApplet.testKey3
+					astore 6;
+					goto L22;
+				L19:	sload 5;
+					sconst_4;
+					if_scmpne L21;
+				L20:	getfield_a_this 10;		// reference jcostest/JCOSTestApplet.testKey4
+					astore 6;
+					goto L22;
+				L21:	sspush 27267;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L22:	aload 6;
+					invokeinterface 1 73 3;		// javacard/security/Key
+					ifeq L26;
+				L23:	sload_3;
+					ifne L25;
+				L24:	getfield_a_this 12;		// reference jcostest/JCOSTestApplet.signer
+					aload 6;
+					sconst_1;
+					invokevirtual 89;		// init(Ljavacard/security/Key;B)V
+					goto L39;
+				L25:	getfield_a_this 12;		// reference jcostest/JCOSTestApplet.signer
+					aload 6;
+					sconst_1;
+					aload_2;
+					aload_1;
+					invokevirtual 74;		// getOffsetCdata()S
+					sload_3;
+					invokevirtual 90;		// init(Ljavacard/security/Key;B[BSS)V
+					goto L39;
+				L26:	bspush 17;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+					goto L39;
+				L27:	getfield_a_this 12;		// reference jcostest/JCOSTestApplet.signer
+					aload_2;
+					aload_1;
+					invokevirtual 74;		// getOffsetCdata()S
+					sload_3;
+					invokevirtual 91;		// update([BSS)V
+				L28:	goto L39;
+				L29:	astore 7;
+				L30:	sspush 27013;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L31:	goto L39;
+				L32:	getfield_a_this 12;		// reference jcostest/JCOSTestApplet.signer
+					aload_2;
+					aload_1;
+					invokevirtual 74;		// getOffsetCdata()S
+					sload_3;
+					getfield_a_this 5;		// reference jcostest/JCOSTestApplet.b0
+					sconst_0;
+					invokevirtual 92;		// sign([BSS[BS)S
+					sstore 7;
+				L33:	aload_1;
+					invokevirtual 77;		// setOutgoing()S
+					pop;
+					aload_1;
+					sload 7;
+					invokevirtual 78;		// setOutgoingLength(S)V
+					aload_1;
+					getfield_a_this 5;		// reference jcostest/JCOSTestApplet.b0
+					sconst_0;
+					sload 7;
+					invokevirtual 79;		// sendBytesLong([BSS)V
+				L34:	goto L39;
+				L35:	astore 7;
+				L36:	sspush 27013;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L37:	goto L39;
+				L38:	sspush 27270;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L39:	return;
+			.exceptionTable {
+				// start_block end_block handler_block catch_type_index
+				L4 L5 L6 63;
+				L27 L28 L29 63;
+				L32 L34 L35 63;
+			}
+		}
+
+		.method public verify(Ljavacard/framework/APDU;[B)V 12 {
+			.stack 7;
+			.locals 5;
+
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+				L0:	aload_1;
+					invokevirtual 64;		// setIncomingAndReceive()S
+					sstore_3;
+				L1:	aload_2;
+					sconst_2;
+					baload;
+					sstore 4;
+				L2:	aload_2;
+					sconst_3;
+					baload;
+					sstore 5;
+				L3:	sload 4;
+					stableswitch L42 1 6 L4 L42 L9 L12 L27 L32;
+				L4:	aload_0;
+					sload 5;
+					sconst_0;
+					invokestatic 87;		// javacard/security/Signature.getInstance(BZ)Ljavacard/security/Signature;
+					putfield_a 12;		// reference jcostest/JCOSTestApplet.signer
+				L5:	goto_w L43;
+				L6:	astore 6;
+				L7:	sspush 27265;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L8:	goto_w L43;
+				L9:	getfield_a_this 6;		// reference jcostest/JCOSTestApplet.cipher
+					ifnull L11;
+				L10:	aload_2;
+					sconst_0;
+					getfield_a_this 12;		// reference jcostest/JCOSTestApplet.signer
+					invokevirtual 93;		// getAlgorithm()B
+					bastore;
+					aload_1;
+					sconst_0;
+					sconst_1;
+					invokevirtual 68;		// setOutgoingAndSend(SS)V
+					goto_w L43;
+				L11:	sspush 25088;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L43;
+				L12:	aconst_null;
+					astore 6;
+				L13:	sload 5;
+					sconst_1;
+					if_scmpne L15;
+				L14:	getfield_a_this 7;		// reference jcostest/JCOSTestApplet.testKey1
+					astore 6;
+					goto L22;
+				L15:	sload 5;
+					sconst_2;
+					if_scmpne L17;
+				L16:	getfield_a_this 8;		// reference jcostest/JCOSTestApplet.testKey2
+					astore 6;
+					goto L22;
+				L17:	sload 5;
+					sconst_3;
+					if_scmpne L19;
+				L18:	getfield_a_this 9;		// reference jcostest/JCOSTestApplet.testKey3
+					astore 6;
+					goto L22;
+				L19:	sload 5;
+					sconst_4;
+					if_scmpne L21;
+				L20:	getfield_a_this 10;		// reference jcostest/JCOSTestApplet.testKey4
+					astore 6;
+					goto L22;
+				L21:	sspush 27267;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L22:	aload 6;
+					invokeinterface 1 73 3;		// javacard/security/Key
+					ifeq L26;
+				L23:	sload_3;
+					ifne L25;
+				L24:	getfield_a_this 12;		// reference jcostest/JCOSTestApplet.signer
+					aload 6;
+					sconst_2;
+					invokevirtual 89;		// init(Ljavacard/security/Key;B)V
+					goto L43;
+				L25:	getfield_a_this 12;		// reference jcostest/JCOSTestApplet.signer
+					aload 6;
+					sconst_2;
+					aload_2;
+					aload_1;
+					invokevirtual 74;		// getOffsetCdata()S
+					sload_3;
+					invokevirtual 90;		// init(Ljavacard/security/Key;B[BSS)V
+					goto L43;
+				L26:	bspush 17;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+					goto L43;
+				L27:	getfield_a_this 12;		// reference jcostest/JCOSTestApplet.signer
+					aload_2;
+					aload_1;
+					invokevirtual 74;		// getOffsetCdata()S
+					sload_3;
+					invokevirtual 91;		// update([BSS)V
+				L28:	goto L43;
+				L29:	astore 7;
+				L30:	sspush 27013;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L31:	goto L43;
+				L32:	getfield_a_this 4;		// reference jcostest/JCOSTestApplet.arbitraryData
+					ifnonnull L34;
+				L33:	sspush 27012;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L34:	getfield_a_this 12;		// reference jcostest/JCOSTestApplet.signer
+					getfield_a_this 4;		// reference jcostest/JCOSTestApplet.arbitraryData
+					sconst_0;
+					getfield_a_this 4;		// reference jcostest/JCOSTestApplet.arbitraryData
+					arraylength;
+					aload_2;
+					aload_1;
+					invokevirtual 74;		// getOffsetCdata()S
+					sload_3;
+					invokevirtual 94;		// verify([BSS[BSS)Z
+					ifeq L36;
+				L35:	aload_2;
+					sconst_0;
+					sconst_1;
+					bastore;
+					goto L37;
+				L36:	aload_2;
+					sconst_0;
+					sconst_0;
+					bastore;
+				L37:	aload_1;
+					sconst_0;
+					sconst_1;
+					invokevirtual 68;		// setOutgoingAndSend(SS)V
+				L38:	goto L43;
+				L39:	astore 7;
+				L40:	sspush 27013;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L41:	goto L43;
+				L42:	sspush 27270;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L43:	return;
+			.exceptionTable {
+				// start_block end_block handler_block catch_type_index
+				L4 L5 L6 63;
+				L27 L28 L29 63;
+				L32 L38 L39 63;
+			}
+		}
+
+		.method public setKey(Ljavacard/framework/APDU;[B)V 13 {
+			.stack 6;
+			.locals 5;
+
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+				L0:	aload_1;
+					invokevirtual 64;		// setIncomingAndReceive()S
+					sstore_3;
+				L1:	aload_2;
+					sconst_2;
+					baload;
+					sstore 4;
+				L2:	aload_2;
+					sconst_3;
+					baload;
+					sstore 5;
+				L3:	aconst_null;
+					astore 6;
+				L4:	sconst_0;
+					sstore 7;
+				L5:	sload 4;
+					stableswitch L89 1 8 L6 L41 L78 L89 L89 L89 L17 L29;
+				L6:	sload_3;
+					sconst_3;
+					if_scmpeq L8;
+				L7:	sspush 26368;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L8:	aload_2;
+					aload_1;
+					invokevirtual 74;		// getOffsetCdata()S
+					baload;
+					aload_2;
+					aload_1;
+					invokevirtual 74;		// getOffsetCdata()S
+					sconst_1;
+					sadd;
+					baload;
+					invokestatic 95;		// javacard/framework/Util.makeShort(BB)S
+					sstore_3;
+					sload 5;
+					sconst_1;
+					if_scmpne L10;
+				L9:	getfield_a_this 7;		// reference jcostest/JCOSTestApplet.testKey1
+					invokeinterface 1 73 0;		// javacard/security/Key
+					aload_0;
+					sload 5;
+					sload_3;
+					sconst_0;
+					invokestatic 96;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
+					putfield_a 7;		// reference jcostest/JCOSTestApplet.testKey1
+					aload_0;
+					aload_2;
+					aload_1;
+					invokevirtual 74;		// getOffsetCdata()S
+					sconst_2;
+					sadd;
+					baload;
+					putfield_b 0;		// byte jcostest/JCOSTestApplet.testKey1Type
+					goto_w L90;
+				L10:	sload 5;
+					sconst_2;
+					if_scmpne L12;
+				L11:	getfield_a_this 8;		// reference jcostest/JCOSTestApplet.testKey2
+					invokeinterface 1 73 0;		// javacard/security/Key
+					aload_0;
+					sload 5;
+					sload_3;
+					sconst_0;
+					invokestatic 96;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
+					putfield_a 8;		// reference jcostest/JCOSTestApplet.testKey2
+					aload_0;
+					aload_2;
+					aload_1;
+					invokevirtual 74;		// getOffsetCdata()S
+					sconst_2;
+					sadd;
+					baload;
+					putfield_b 1;		// byte jcostest/JCOSTestApplet.testKey2Type
+					goto_w L90;
+				L12:	sload 5;
+					sconst_3;
+					if_scmpne L14;
+				L13:	getfield_a_this 9;		// reference jcostest/JCOSTestApplet.testKey3
+					invokeinterface 1 73 0;		// javacard/security/Key
+					aload_0;
+					sload 5;
+					sload_3;
+					sconst_0;
+					invokestatic 96;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
+					putfield_a 9;		// reference jcostest/JCOSTestApplet.testKey3
+					aload_0;
+					aload_2;
+					aload_1;
+					invokevirtual 74;		// getOffsetCdata()S
+					sconst_2;
+					sadd;
+					baload;
+					putfield_b 2;		// byte jcostest/JCOSTestApplet.testKey3Type
+					goto_w L90;
+				L14:	sload 5;
+					sconst_4;
+					if_scmpne L16;
+				L15:	getfield_a_this 10;		// reference jcostest/JCOSTestApplet.testKey4
+					invokeinterface 1 73 0;		// javacard/security/Key
+					aload_0;
+					sload 5;
+					sload_3;
+					sconst_0;
+					invokestatic 96;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
+					putfield_a 10;		// reference jcostest/JCOSTestApplet.testKey4
+					aload_0;
+					aload_2;
+					aload_1;
+					invokevirtual 74;		// getOffsetCdata()S
+					sconst_2;
+					sadd;
+					baload;
+					putfield_b 3;		// byte jcostest/JCOSTestApplet.testKey4Type
+					goto_w L90;
+				L16:	sspush 27267;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L90;
+				L17:	sload 5;
+					sconst_1;
+					if_scmpne L19;
+				L18:	getfield_a_this 7;		// reference jcostest/JCOSTestApplet.testKey1
+					astore 6;
+					getfield_b_this 0;		// byte jcostest/JCOSTestApplet.testKey1Type
+					sstore 7;
+					goto L26;
+				L19:	sload 5;
+					sconst_2;
+					if_scmpne L21;
+				L20:	getfield_a_this 8;		// reference jcostest/JCOSTestApplet.testKey2
+					astore 6;
+					getfield_b_this 1;		// byte jcostest/JCOSTestApplet.testKey2Type
+					sstore 7;
+					goto L26;
+				L21:	sload 5;
+					sconst_3;
+					if_scmpne L23;
+				L22:	getfield_a_this 9;		// reference jcostest/JCOSTestApplet.testKey3
+					astore 6;
+					getfield_b_this 2;		// byte jcostest/JCOSTestApplet.testKey3Type
+					sstore 7;
+					goto L26;
+				L23:	sload 5;
+					sconst_4;
+					if_scmpne L25;
+				L24:	getfield_a_this 10;		// reference jcostest/JCOSTestApplet.testKey4
+					astore 6;
+					getfield_b_this 3;		// byte jcostest/JCOSTestApplet.testKey4Type
+					sstore 7;
+					goto L26;
+				L25:	sspush 27267;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L26:	aload 6;
+					ifnonnull L28;
+				L27:	bspush 17;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L28:	aload_0;
+					aload 6;
+					sload 7;
+					aload_2;
+					aload_1;
+					invokevirtual 74;		// getOffsetCdata()S
+					sload_3;
+					invokevirtual 97;		// setKey(Ljavacard/security/Key;B[BSS)Z
+					pop;
+					goto_w L90;
+				L29:	sload 5;
+					sconst_1;
+					if_scmpne L31;
+				L30:	getfield_a_this 7;		// reference jcostest/JCOSTestApplet.testKey1
+					astore 6;
+					getfield_b_this 0;		// byte jcostest/JCOSTestApplet.testKey1Type
+					sstore 7;
+					goto L38;
+				L31:	sload 5;
+					sconst_2;
+					if_scmpne L33;
+				L32:	getfield_a_this 8;		// reference jcostest/JCOSTestApplet.testKey2
+					astore 6;
+					getfield_b_this 1;		// byte jcostest/JCOSTestApplet.testKey2Type
+					sstore 7;
+					goto L38;
+				L33:	sload 5;
+					sconst_3;
+					if_scmpne L35;
+				L34:	getfield_a_this 9;		// reference jcostest/JCOSTestApplet.testKey3
+					astore 6;
+					getfield_b_this 2;		// byte jcostest/JCOSTestApplet.testKey3Type
+					sstore 7;
+					goto L38;
+				L35:	sload 5;
+					sconst_4;
+					if_scmpne L37;
+				L36:	getfield_a_this 10;		// reference jcostest/JCOSTestApplet.testKey4
+					astore 6;
+					getfield_b_this 3;		// byte jcostest/JCOSTestApplet.testKey4Type
+					sstore 7;
+					goto L38;
+				L37:	sspush 27267;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L38:	aload 6;
+					ifnonnull L40;
+				L39:	bspush 17;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L40:	aload 6;
+					sload 7;
+					aload_2;
+					aload_1;
+					invokevirtual 74;		// getOffsetCdata()S
+					sload_3;
+					invokestatic 98;		// jcostest/AlternateKM.setKey(Ljavacard/security/Key;B[BSS)Z
+					pop;
+					goto_w L90;
+				L41:	sload 5;
+					sconst_1;
+					if_scmpne L43;
+				L42:	getfield_a_this 7;		// reference jcostest/JCOSTestApplet.testKey1
+					astore 6;
+					goto L50;
+				L43:	sload 5;
+					sconst_2;
+					if_scmpne L45;
+				L44:	getfield_a_this 8;		// reference jcostest/JCOSTestApplet.testKey2
+					astore 6;
+					goto L50;
+				L45:	sload 5;
+					sconst_3;
+					if_scmpne L47;
+				L46:	getfield_a_this 9;		// reference jcostest/JCOSTestApplet.testKey3
+					astore 6;
+					goto L50;
+				L47:	sload 5;
+					sconst_4;
+					if_scmpne L49;
+				L48:	getfield_a_this 10;		// reference jcostest/JCOSTestApplet.testKey4
+					astore 6;
+					goto L50;
+				L49:	sspush 27267;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L50:	aload 6;
+					invokeinterface 1 73 3;		// javacard/security/Key
+					ifne L52;
+				L51:	bspush 17;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L52:	aload 6;
+					instanceof 0 47;		// T_CLASSORINTERFACE javacard/security/AESKey
+					ifeq L54;
+				L53:	aload 6;
+					checkcast 0 47;		// T_CLASSORINTERFACE javacard/security/AESKey
+					aload_2;
+					sconst_0;
+					invokeinterface 3 47 5;		// javacard/security/AESKey
+					sstore_3;
+					goto_w L77;
+				L54:	aload 6;
+					instanceof 0 48;		// T_CLASSORINTERFACE javacard/security/DESKey
+					ifeq L56;
+				L55:	aload 6;
+					checkcast 0 48;		// T_CLASSORINTERFACE javacard/security/DESKey
+					aload_2;
+					sconst_0;
+					invokeinterface 3 48 4;		// javacard/security/DESKey
+					sstore_3;
+					goto_w L77;
+				L56:	aload 6;
+					instanceof 0 99;		// T_CLASSORINTERFACE javacard/security/DSAPublicKey
+					ifeq L58;
+				L57:	aload 6;
+					checkcast 0 99;		// T_CLASSORINTERFACE javacard/security/DSAPublicKey
+					aload_2;
+					sconst_0;
+					invokeinterface 3 99 10;		// javacard/security/DSAPublicKey
+					sstore_3;
+					goto_w L77;
+				L58:	aload 6;
+					instanceof 0 100;		// T_CLASSORINTERFACE javacard/security/DSAPrivateKey
+					ifeq L60;
+				L59:	aload 6;
+					checkcast 0 100;		// T_CLASSORINTERFACE javacard/security/DSAPrivateKey
+					aload_2;
+					sconst_0;
+					invokeinterface 3 100 10;		// javacard/security/DSAPrivateKey
+					sstore_3;
+					goto_w L77;
+				L60:	aload 6;
+					instanceof 0 49;		// T_CLASSORINTERFACE javacard/security/ECPublicKey
+					ifeq L62;
+				L61:	aload 6;
+					checkcast 0 49;		// T_CLASSORINTERFACE javacard/security/ECPublicKey
+					aload_2;
+					sconst_0;
+					invokeinterface 3 49 19;		// javacard/security/ECPublicKey
+					sstore_3;
+					goto_w L77;
+				L62:	aload 6;
+					instanceof 0 52;		// T_CLASSORINTERFACE javacard/security/ECPrivateKey
+					ifeq L64;
+				L63:	aload 6;
+					checkcast 0 52;		// T_CLASSORINTERFACE javacard/security/ECPrivateKey
+					aload_2;
+					sconst_0;
+					invokeinterface 3 52 19;		// javacard/security/ECPrivateKey
+					sstore_3;
+					goto L77;
+				L64:	aload 6;
+					instanceof 0 101;		// T_CLASSORINTERFACE javacard/security/RSAPublicKey
+					ifeq L70;
+				L65:	sload_3;
+					sconst_1;
+					if_scmpne L69;
+				L66:	aload_2;
+					aload_1;
+					invokevirtual 74;		// getOffsetCdata()S
+					baload;
+					ifne L68;
+				L67:	aload 6;
+					checkcast 0 101;		// T_CLASSORINTERFACE javacard/security/RSAPublicKey
+					aload_2;
+					sconst_0;
+					invokeinterface 3 101 5;		// javacard/security/RSAPublicKey
+					sstore_3;
+					goto L77;
+				L68:	aload 6;
+					checkcast 0 101;		// T_CLASSORINTERFACE javacard/security/RSAPublicKey
+					aload_2;
+					sconst_0;
+					invokeinterface 3 101 4;		// javacard/security/RSAPublicKey
+					sstore_3;
+					goto L77;
+				L69:	sspush 26368;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+					goto L77;
+				L70:	aload 6;
+					instanceof 0 102;		// T_CLASSORINTERFACE javacard/security/RSAPrivateKey
+					ifeq L76;
+				L71:	sload_3;
+					sconst_1;
+					if_scmpne L75;
+				L72:	aload_2;
+					aload_1;
+					invokevirtual 74;		// getOffsetCdata()S
+					baload;
+					ifne L74;
+				L73:	aload 6;
+					checkcast 0 102;		// T_CLASSORINTERFACE javacard/security/RSAPrivateKey
+					aload_2;
+					sconst_0;
+					invokeinterface 3 102 5;		// javacard/security/RSAPrivateKey
+					sstore_3;
+					goto L77;
+				L74:	aload 6;
+					checkcast 0 102;		// T_CLASSORINTERFACE javacard/security/RSAPrivateKey
+					aload_2;
+					sconst_0;
+					invokeinterface 3 102 4;		// javacard/security/RSAPrivateKey
+					sstore_3;
+					goto L77;
+				L75:	sspush 26368;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+					goto L77;
+				L76:	bspush -63;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L77:	aload_1;
+					sconst_0;
+					sload_3;
+					invokevirtual 68;		// setOutgoingAndSend(SS)V
+					goto L90;
+				L78:	sload 5;
+					sconst_1;
+					if_scmpne L80;
+				L79:	getfield_a_this 7;		// reference jcostest/JCOSTestApplet.testKey1
+					astore 6;
+					goto L87;
+				L80:	sload 5;
+					sconst_2;
+					if_scmpne L82;
+				L81:	getfield_a_this 8;		// reference jcostest/JCOSTestApplet.testKey2
+					astore 6;
+					goto L87;
+				L82:	sload 5;
+					sconst_3;
+					if_scmpne L84;
+				L83:	getfield_a_this 9;		// reference jcostest/JCOSTestApplet.testKey3
+					astore 6;
+					goto L87;
+				L84:	sload 5;
+					sconst_4;
+					if_scmpne L86;
+				L85:	getfield_a_this 10;		// reference jcostest/JCOSTestApplet.testKey4
+					astore 6;
+					goto L87;
+				L86:	sspush 27267;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L87:	aload 6;
+					invokeinterface 1 73 3;		// javacard/security/Key
+					ifne L90;
+				L88:	bspush 17;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+					goto L90;
+				L89:	sspush 27270;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L90:	return;
+		}
+
+		.method public setData(Ljavacard/framework/APDU;[B)V 14 {
 			.stack 5;
 			.locals 5;
 
 			.descriptor	Ljavacard/framework/APDU;	2.10;
 
 				L0:	aload_1;
-					invokevirtual 22;		// setIncomingAndReceive()S
+					invokevirtual 64;		// setIncomingAndReceive()S
 					sstore_3;
 				L1:	aload_2;
 					sconst_2;
@@ -663,104 +2039,118 @@
 					baload;
 					sstore 5;
 				L3:	sload 4;
-					stableswitch L17 1 3 L4 L9 L14;
-				L4:	sload 5;
-					sconst_1;
-					if_scmpeq_w L18;
-				L5:	sload 5;
-					sconst_2;
-					if_scmpne_w L18;
-				L6:	sload_3;
-					ifgt L8;
-				L7:	sspush 26368;
-					invokestatic 21;		// javacard/framework/ISOException.throwIt(S)V
-				L8:	aload_0;
+					stableswitch L18 2 8 L10 L15 L18 L18 L18 L4 L7;
+				L4:	sload_3;
+					ifgt L6;
+				L5:	sspush 26368;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L6:	aload_0;
 					aconst_null;
-					putfield_a 0;		// reference jcostest/JCOSTestApplet.arbitraryData
+					putfield_a 4;		// reference jcostest/JCOSTestApplet.arbitraryData
 					aload_0;
 					sload_3;
 					newarray 11;
-					putfield_a 0;		// reference jcostest/JCOSTestApplet.arbitraryData
+					putfield_a 4;		// reference jcostest/JCOSTestApplet.arbitraryData
 					aload_2;
 					aload_1;
-					invokevirtual 23;		// getOffsetCdata()S
-					getfield_a_this 0;		// reference jcostest/JCOSTestApplet.arbitraryData
+					invokevirtual 74;		// getOffsetCdata()S
+					getfield_a_this 4;		// reference jcostest/JCOSTestApplet.arbitraryData
 					sconst_0;
 					sload_3;
-					invokestatic 24;		// jcostest/AlternateKM.setData([BS[BSS)V
-					goto L18;
-				L9:	sload_3;
-					sconst_4;
-					if_scmpeq L11;
-				L10:	sspush 26368;
-					invokestatic 21;		// javacard/framework/ISOException.throwIt(S)V
-				L11:	aload_2;
+					invokestatic 42;		// javacard/framework/Util.arrayCopy([BS[BSS)S
+					pop;
+					goto_w L19;
+				L7:	sload_3;
+					ifgt L9;
+				L8:	sspush 26368;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L9:	aload_0;
+					aconst_null;
+					putfield_a 4;		// reference jcostest/JCOSTestApplet.arbitraryData
+					aload_0;
+					sload_3;
+					newarray 11;
+					putfield_a 4;		// reference jcostest/JCOSTestApplet.arbitraryData
+					aload_2;
 					aload_1;
-					invokevirtual 23;		// getOffsetCdata()S
+					invokevirtual 74;		// getOffsetCdata()S
+					getfield_a_this 4;		// reference jcostest/JCOSTestApplet.arbitraryData
+					sconst_0;
+					sload_3;
+					invokestatic 103;		// jcostest/AlternateKM.setData([BS[BSS)V
+					goto L19;
+				L10:	sload_3;
+					sconst_4;
+					if_scmpeq L12;
+				L11:	sspush 26368;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L12:	aload_2;
+					aload_1;
+					invokevirtual 74;		// getOffsetCdata()S
 					baload;
 					aload_2;
 					aload_1;
-					invokevirtual 23;		// getOffsetCdata()S
+					invokevirtual 74;		// getOffsetCdata()S
 					sconst_1;
 					sadd;
 					baload;
-					invokestatic 25;		// javacard/framework/Util.makeShort(BB)S
+					invokestatic 95;		// javacard/framework/Util.makeShort(BB)S
 					sstore 6;
-				L12:	aload_2;
+				L13:	aload_2;
 					aload_1;
-					invokevirtual 23;		// getOffsetCdata()S
+					invokevirtual 74;		// getOffsetCdata()S
 					sconst_2;
 					sadd;
 					baload;
 					aload_2;
 					aload_1;
-					invokevirtual 23;		// getOffsetCdata()S
+					invokevirtual 74;		// getOffsetCdata()S
 					sconst_3;
 					sadd;
 					baload;
-					invokestatic 25;		// javacard/framework/Util.makeShort(BB)S
+					invokestatic 95;		// javacard/framework/Util.makeShort(BB)S
 					sstore 7;
-				L13:	getfield_a_this 0;		// reference jcostest/JCOSTestApplet.arbitraryData
+				L14:	getfield_a_this 4;		// reference jcostest/JCOSTestApplet.arbitraryData
 					sload 6;
 					aload_2;
 					sconst_0;
 					sload 7;
-					invokestatic 26;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
+					invokestatic 104;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
 					pop;
 					aload_1;
 					sconst_0;
 					sload 7;
-					invokevirtual 27;		// setOutgoingAndSend(SS)V
-					goto L18;
-				L14:	getfield_a_this 0;		// reference jcostest/JCOSTestApplet.arbitraryData
-					ifnonnull L16;
-				L15:	sspush 27267;
-					invokestatic 21;		// javacard/framework/ISOException.throwIt(S)V
-					goto L18;
-				L16:	aload_2;
+					invokevirtual 68;		// setOutgoingAndSend(SS)V
+					goto L19;
+				L15:	getfield_a_this 4;		// reference jcostest/JCOSTestApplet.arbitraryData
+					ifnonnull L17;
+				L16:	sspush 27267;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+					goto L19;
+				L17:	aload_2;
 					sconst_0;
-					getfield_a_this 0;		// reference jcostest/JCOSTestApplet.arbitraryData
+					getfield_a_this 4;		// reference jcostest/JCOSTestApplet.arbitraryData
 					arraylength;
-					invokestatic 28;		// javacard/framework/Util.setShort([BSS)S
+					invokestatic 105;		// javacard/framework/Util.setShort([BSS)S
 					pop;
 					aload_1;
 					sconst_0;
 					sconst_2;
-					invokevirtual 27;		// setOutgoingAndSend(SS)V
-					goto L18;
-				L17:	sspush 27270;
-					invokestatic 21;		// javacard/framework/ISOException.throwIt(S)V
-				L18:	return;
+					invokevirtual 68;		// setOutgoingAndSend(SS)V
+					goto L19;
+				L18:	sspush 27270;
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
+				L19:	return;
 		}
 
-		.method public doHash(Ljavacard/framework/APDU;[B)V 10 {
+		.method public doHash(Ljavacard/framework/APDU;[B)V 15 {
 			.stack 6;
 			.locals 4;
 
 			.descriptor	Ljavacard/framework/APDU;	2.10;
 
 				L0:	aload_1;
-					invokevirtual 22;		// setIncomingAndReceive()S
+					invokevirtual 64;		// setIncomingAndReceive()S
 					sstore_3;
 				L1:	aload_2;
 					sconst_2;
@@ -775,76 +2165,443 @@
 				L4:	aload_0;
 					sload 5;
 					sconst_0;
-					invokestatic 30;		// javacard/security/MessageDigest.getInstance(BZ)Ljavacard/security/MessageDigest;
-					putfield_a 2;		// reference jcostest/JCOSTestApplet.md
+					invokestatic 106;		// javacard/security/MessageDigest.getInstance(BZ)Ljavacard/security/MessageDigest;
+					putfield_a 13;		// reference jcostest/JCOSTestApplet.md
 				L5:	goto_w L25;
 				L6:	astore 6;
 				L7:	sspush 27265;
-					invokestatic 21;		// javacard/framework/ISOException.throwIt(S)V
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
 				L8:	goto L25;
-				L9:	getfield_a_this 2;		// reference jcostest/JCOSTestApplet.md
+				L9:	getfield_a_this 13;		// reference jcostest/JCOSTestApplet.md
 					ifnull L11;
 				L10:	aload_2;
 					sconst_0;
-					getfield_a_this 2;		// reference jcostest/JCOSTestApplet.md
-					invokevirtual 32;		// getAlgorithm()B
+					getfield_a_this 13;		// reference jcostest/JCOSTestApplet.md
+					invokevirtual 108;		// getAlgorithm()B
 					bastore;
 					aload_1;
 					sconst_0;
 					sconst_1;
-					invokevirtual 27;		// setOutgoingAndSend(SS)V
+					invokevirtual 68;		// setOutgoingAndSend(SS)V
 					goto L25;
 				L11:	sspush 25088;
-					invokestatic 21;		// javacard/framework/ISOException.throwIt(S)V
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
 					goto L25;
-				L12:	getfield_a_this 2;		// reference jcostest/JCOSTestApplet.md
-					invokevirtual 33;		// reset()V
+				L12:	getfield_a_this 13;		// reference jcostest/JCOSTestApplet.md
+					invokevirtual 109;		// reset()V
 					goto L25;
-				L13:	getfield_a_this 2;		// reference jcostest/JCOSTestApplet.md
+				L13:	getfield_a_this 13;		// reference jcostest/JCOSTestApplet.md
 					aload_2;
 					aload_1;
-					invokevirtual 23;		// getOffsetCdata()S
+					invokevirtual 74;		// getOffsetCdata()S
 					sload_3;
-					invokevirtual 34;		// update([BSS)V
+					invokevirtual 110;		// update([BSS)V
 				L14:	goto L25;
 				L15:	astore 6;
 				L16:	sspush 27013;
-					invokestatic 21;		// javacard/framework/ISOException.throwIt(S)V
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
 				L17:	goto L25;
-				L18:	getfield_a_this 2;		// reference jcostest/JCOSTestApplet.md
+				L18:	getfield_a_this 13;		// reference jcostest/JCOSTestApplet.md
 					aload_2;
 					aload_1;
-					invokevirtual 23;		// getOffsetCdata()S
+					invokevirtual 74;		// getOffsetCdata()S
 					sload_3;
-					getfield_a_this 1;		// reference jcostest/JCOSTestApplet.b0
+					getfield_a_this 5;		// reference jcostest/JCOSTestApplet.b0
 					sconst_0;
-					invokevirtual 35;		// doFinal([BSS[BS)S
+					invokevirtual 111;		// doFinal([BSS[BS)S
 					sstore 6;
 				L19:	aload_1;
-					invokevirtual 36;		// setOutgoing()S
+					invokevirtual 77;		// setOutgoing()S
 					pop;
 					aload_1;
 					sload 6;
-					invokevirtual 37;		// setOutgoingLength(S)V
+					invokevirtual 78;		// setOutgoingLength(S)V
 					aload_1;
-					getfield_a_this 1;		// reference jcostest/JCOSTestApplet.b0
+					getfield_a_this 5;		// reference jcostest/JCOSTestApplet.b0
 					sconst_0;
 					sload 6;
-					invokevirtual 38;		// sendBytesLong([BSS)V
+					invokevirtual 79;		// sendBytesLong([BSS)V
 				L20:	goto L25;
 				L21:	astore 6;
 				L22:	sspush 27013;
-					invokestatic 21;		// javacard/framework/ISOException.throwIt(S)V
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
 				L23:	goto L25;
 				L24:	sspush 27270;
-					invokestatic 21;		// javacard/framework/ISOException.throwIt(S)V
+					invokestatic 62;		// javacard/framework/ISOException.throwIt(S)V
 				L25:	return;
 			.exceptionTable {
 				// start_block end_block handler_block catch_type_index
-				L4 L5 L6 29;
-				L13 L14 L15 29;
-				L18 L20 L21 29;
+				L4 L5 L6 63;
+				L13 L14 L15 63;
+				L18 L20 L21 63;
 			}
+		}
+
+		.method public setKey(Ljavacard/security/Key;B[BSS)Z 16 {
+			.stack 4;
+			.locals 0;
+
+			.descriptor	Ljavacard/security/Key;	1.0;
+
+				L0:	aload_1;
+					instanceof 0 47;		// T_CLASSORINTERFACE javacard/security/AESKey
+					ifeq L2;
+				L1:	aload_1;
+					checkcast 0 47;		// T_CLASSORINTERFACE javacard/security/AESKey
+					aload_3;
+					sload 4;
+					invokeinterface 3 47 4;		// javacard/security/AESKey
+					goto L9;
+				L2:	aload_1;
+					instanceof 0 48;		// T_CLASSORINTERFACE javacard/security/DESKey
+					ifeq L4;
+				L3:	aload_1;
+					checkcast 0 48;		// T_CLASSORINTERFACE javacard/security/DESKey
+					aload_3;
+					sload 4;
+					invokeinterface 3 48 5;		// javacard/security/DESKey
+					goto L9;
+				L4:	aload_1;
+					instanceof 0 49;		// T_CLASSORINTERFACE javacard/security/ECPublicKey
+					ifeq L6;
+				L5:	aload_0;
+					aload_1;
+					sload_2;
+					invokevirtual 112;		// initECCurveParameters(Ljavacard/security/Key;B)V
+					aload_1;
+					checkcast 0 49;		// T_CLASSORINTERFACE javacard/security/ECPublicKey
+					aload_3;
+					sload 4;
+					sload 5;
+					invokeinterface 4 49 18;		// javacard/security/ECPublicKey
+					goto L9;
+				L6:	aload_1;
+					instanceof 0 52;		// T_CLASSORINTERFACE javacard/security/ECPrivateKey
+					ifeq L8;
+				L7:	aload_0;
+					aload_1;
+					sload_2;
+					invokevirtual 112;		// initECCurveParameters(Ljavacard/security/Key;B)V
+					aload_1;
+					checkcast 0 52;		// T_CLASSORINTERFACE javacard/security/ECPrivateKey
+					aload_3;
+					sload 4;
+					sload 5;
+					invokeinterface 4 52 18;		// javacard/security/ECPrivateKey
+					goto L9;
+				L8:	sconst_0;
+					sreturn;
+				L9:	sconst_1;
+					sreturn;
+		}
+
+		.method public initECCurveParameters(Ljavacard/security/Key;B)V 17 {
+			.stack 4;
+			.locals 0;
+
+			.descriptor	Ljavacard/security/Key;	1.0;
+
+				L0:	sload_2;
+					sconst_1;
+					if_scmpne L2;
+				L1:	aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 69;		// reference jcostest/Constants.ansix9p256r1_a
+					sconst_0;
+					getstatic_a 69;		// reference jcostest/Constants.ansix9p256r1_a
+					arraylength;
+					invokeinterface 4 66 3;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 70;		// reference jcostest/Constants.ansix9p256r1_b
+					sconst_0;
+					getstatic_a 70;		// reference jcostest/Constants.ansix9p256r1_b
+					arraylength;
+					invokeinterface 4 66 4;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 71;		// reference jcostest/Constants.ansix9p256r1_field
+					sconst_0;
+					getstatic_a 71;		// reference jcostest/Constants.ansix9p256r1_field
+					arraylength;
+					invokeinterface 4 66 0;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 72;		// reference jcostest/Constants.ansix9p256r1_g
+					sconst_0;
+					getstatic_a 72;		// reference jcostest/Constants.ansix9p256r1_g
+					arraylength;
+					invokeinterface 4 66 5;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 82;		// reference jcostest/Constants.ansix9p256r1_r
+					sconst_0;
+					getstatic_a 82;		// reference jcostest/Constants.ansix9p256r1_r
+					arraylength;
+					invokeinterface 4 66 6;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					sconst_1;
+					invokeinterface 2 66 7;		// javacard/security/ECKey
+					goto_w L14;
+				L2:	sload_2;
+					sconst_2;
+					if_scmpne L4;
+				L3:	aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 88;		// reference jcostest/Constants.ansix9p384r1_a
+					sconst_0;
+					getstatic_a 88;		// reference jcostest/Constants.ansix9p384r1_a
+					arraylength;
+					invokeinterface 4 66 3;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 107;		// reference jcostest/Constants.ansix9p384r1_b
+					sconst_0;
+					getstatic_a 107;		// reference jcostest/Constants.ansix9p384r1_b
+					arraylength;
+					invokeinterface 4 66 4;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 14;		// reference jcostest/Constants.ansix9p384r1_field
+					sconst_0;
+					getstatic_a 14;		// reference jcostest/Constants.ansix9p384r1_field
+					arraylength;
+					invokeinterface 4 66 0;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 15;		// reference jcostest/Constants.ansix9p384r1_g
+					sconst_0;
+					getstatic_a 15;		// reference jcostest/Constants.ansix9p384r1_g
+					arraylength;
+					invokeinterface 4 66 5;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 16;		// reference jcostest/Constants.ansix9p384r1_r
+					sconst_0;
+					getstatic_a 16;		// reference jcostest/Constants.ansix9p384r1_r
+					arraylength;
+					invokeinterface 4 66 6;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					sconst_1;
+					invokeinterface 2 66 7;		// javacard/security/ECKey
+					goto_w L14;
+				L4:	sload_2;
+					sconst_3;
+					if_scmpne L6;
+				L5:	aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 17;		// reference jcostest/Constants.ansix9p521r1_a
+					sconst_0;
+					getstatic_a 17;		// reference jcostest/Constants.ansix9p521r1_a
+					arraylength;
+					invokeinterface 4 66 3;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 18;		// reference jcostest/Constants.ansix9p521r1_b
+					sconst_0;
+					getstatic_a 18;		// reference jcostest/Constants.ansix9p521r1_b
+					arraylength;
+					invokeinterface 4 66 4;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 19;		// reference jcostest/Constants.ansix9p521r1_field
+					sconst_0;
+					getstatic_a 19;		// reference jcostest/Constants.ansix9p521r1_field
+					arraylength;
+					invokeinterface 4 66 0;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 20;		// reference jcostest/Constants.ansix9p521r1_g
+					sconst_0;
+					getstatic_a 20;		// reference jcostest/Constants.ansix9p521r1_g
+					arraylength;
+					invokeinterface 4 66 5;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 21;		// reference jcostest/Constants.ansix9p521r1_r
+					sconst_0;
+					getstatic_a 21;		// reference jcostest/Constants.ansix9p521r1_r
+					arraylength;
+					invokeinterface 4 66 6;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					sconst_1;
+					invokeinterface 2 66 7;		// javacard/security/ECKey
+					goto_w L14;
+				L6:	sload_2;
+					sconst_4;
+					if_scmpne L8;
+				L7:	aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 22;		// reference jcostest/Constants.SECP256K1_A
+					sconst_0;
+					getstatic_a 22;		// reference jcostest/Constants.SECP256K1_A
+					arraylength;
+					invokeinterface 4 66 3;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 23;		// reference jcostest/Constants.SECP256K1_B
+					sconst_0;
+					getstatic_a 23;		// reference jcostest/Constants.SECP256K1_B
+					arraylength;
+					invokeinterface 4 66 4;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 24;		// reference jcostest/Constants.SECP256K1_FIELD
+					sconst_0;
+					getstatic_a 24;		// reference jcostest/Constants.SECP256K1_FIELD
+					arraylength;
+					invokeinterface 4 66 0;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 25;		// reference jcostest/Constants.SECP256K1_G
+					sconst_0;
+					getstatic_a 25;		// reference jcostest/Constants.SECP256K1_G
+					arraylength;
+					invokeinterface 4 66 5;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 26;		// reference jcostest/Constants.SECP256K1_R
+					sconst_0;
+					getstatic_a 26;		// reference jcostest/Constants.SECP256K1_R
+					arraylength;
+					invokeinterface 4 66 6;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					sconst_1;
+					invokeinterface 2 66 7;		// javacard/security/ECKey
+					goto_w L14;
+				L8:	sload_2;
+					sconst_5;
+					if_scmpne L10;
+				L9:	aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 27;		// reference jcostest/Constants.brainpoolP256r1_a
+					sconst_0;
+					getstatic_a 27;		// reference jcostest/Constants.brainpoolP256r1_a
+					arraylength;
+					invokeinterface 4 66 3;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 28;		// reference jcostest/Constants.brainpoolP256r1_b
+					sconst_0;
+					getstatic_a 28;		// reference jcostest/Constants.brainpoolP256r1_b
+					arraylength;
+					invokeinterface 4 66 4;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 29;		// reference jcostest/Constants.brainpoolP256r1_field
+					sconst_0;
+					getstatic_a 29;		// reference jcostest/Constants.brainpoolP256r1_field
+					arraylength;
+					invokeinterface 4 66 0;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 30;		// reference jcostest/Constants.brainpoolP256r1_g
+					sconst_0;
+					getstatic_a 30;		// reference jcostest/Constants.brainpoolP256r1_g
+					arraylength;
+					invokeinterface 4 66 5;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 31;		// reference jcostest/Constants.brainpoolP256r1_r
+					sconst_0;
+					getstatic_a 31;		// reference jcostest/Constants.brainpoolP256r1_r
+					arraylength;
+					invokeinterface 4 66 6;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					sconst_1;
+					invokeinterface 2 66 7;		// javacard/security/ECKey
+					goto_w L14;
+				L10:	sload_2;
+					bspush 6;
+					if_scmpne L12;
+				L11:	aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 32;		// reference jcostest/Constants.brainpoolP384r1_a
+					sconst_0;
+					getstatic_a 32;		// reference jcostest/Constants.brainpoolP384r1_a
+					arraylength;
+					invokeinterface 4 66 3;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 33;		// reference jcostest/Constants.brainpoolP384r1_b
+					sconst_0;
+					getstatic_a 33;		// reference jcostest/Constants.brainpoolP384r1_b
+					arraylength;
+					invokeinterface 4 66 4;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 34;		// reference jcostest/Constants.brainpoolP384r1_field
+					sconst_0;
+					getstatic_a 34;		// reference jcostest/Constants.brainpoolP384r1_field
+					arraylength;
+					invokeinterface 4 66 0;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 35;		// reference jcostest/Constants.brainpoolP384r1_g
+					sconst_0;
+					getstatic_a 35;		// reference jcostest/Constants.brainpoolP384r1_g
+					arraylength;
+					invokeinterface 4 66 5;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 36;		// reference jcostest/Constants.brainpoolP384r1_r
+					sconst_0;
+					getstatic_a 36;		// reference jcostest/Constants.brainpoolP384r1_r
+					arraylength;
+					invokeinterface 4 66 6;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					sconst_1;
+					invokeinterface 2 66 7;		// javacard/security/ECKey
+					goto L14;
+				L12:	sload_2;
+					bspush 7;
+					if_scmpne L14;
+				L13:	aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 37;		// reference jcostest/Constants.brainpoolP512r1_a
+					sconst_0;
+					getstatic_a 37;		// reference jcostest/Constants.brainpoolP512r1_a
+					arraylength;
+					invokeinterface 4 66 3;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 38;		// reference jcostest/Constants.brainpoolP512r1_b
+					sconst_0;
+					getstatic_a 38;		// reference jcostest/Constants.brainpoolP512r1_b
+					arraylength;
+					invokeinterface 4 66 4;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 39;		// reference jcostest/Constants.brainpoolP512r1_field
+					sconst_0;
+					getstatic_a 39;		// reference jcostest/Constants.brainpoolP512r1_field
+					arraylength;
+					invokeinterface 4 66 0;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 40;		// reference jcostest/Constants.brainpoolP512r1_g
+					sconst_0;
+					getstatic_a 40;		// reference jcostest/Constants.brainpoolP512r1_g
+					arraylength;
+					invokeinterface 4 66 5;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getstatic_a 41;		// reference jcostest/Constants.brainpoolP512r1_r
+					sconst_0;
+					getstatic_a 41;		// reference jcostest/Constants.brainpoolP512r1_r
+					arraylength;
+					invokeinterface 4 66 6;		// javacard/security/ECKey
+					aload_1;
+					checkcast 0 66;		// T_CLASSORINTERFACE javacard/security/ECKey
+					sconst_1;
+					invokeinterface 2 66 7;		// javacard/security/ECKey
+				L14:	return;
 		}
 
 	}
