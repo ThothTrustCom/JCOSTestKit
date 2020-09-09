@@ -34,6 +34,7 @@ public class Console implements Runnable {
 			init();
 		} catch (Exception e) {
 			LogManager.err(e);
+			e.printStackTrace();
 		}
 	}
 
