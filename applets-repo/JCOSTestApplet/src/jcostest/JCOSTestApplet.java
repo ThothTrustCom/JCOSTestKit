@@ -930,6 +930,7 @@ public class JCOSTestApplet extends Applet {
 			((DESKey) key).setKey(keyData, kOff);
 			return true;
 		case KeyBuilder.TYPE_EC_FP_PRIVATE:
+			ISOException.throwIt(Util.makeShort((byte) 0x6f, (byte) 0xb2));
 			if (initECCurveParameters((ECKey) key, keyType)) {
 				((ECPrivateKey) key).setS(keyData, kOff, kLen);
 				return true;

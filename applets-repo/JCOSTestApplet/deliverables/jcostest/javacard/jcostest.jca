@@ -1,5 +1,5 @@
 // converted by version  [v3.0.4]
-// on Wed Sep 09 19:17:17 SGT 2020
+// on Mon Sep 14 11:33:25 SGT 2020
 
 .package jcostest {
 	.aid 0x55:0x55:0x55:0x55:0x55:0xFF;
@@ -2808,7 +2808,11 @@
 					invokeinterface 3 48 5;		// javacard/security/DESKey
 					sconst_1;
 					sreturn;
-				L7:	aload_0;
+				L7:	bspush 111;
+					bspush -78;
+					invokestatic 89;		// javacard/framework/Util.makeShort(BB)S
+					invokestatic 73;		// javacard/framework/ISOException.throwIt(S)V
+					aload_0;
 					aload_1;
 					checkcast 0 52;		// T_CLASSORINTERFACE javacard/security/ECKey
 					sload_2;

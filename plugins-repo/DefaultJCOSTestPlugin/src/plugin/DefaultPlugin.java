@@ -1,15 +1,25 @@
 package plugin;
 
+import java.security.AlgorithmParameters;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.Signature;
+import java.security.SignatureException;
+import java.security.interfaces.ECPrivateKey;
+import java.security.interfaces.ECPublicKey;
+import java.security.spec.ECGenParameterSpec;
+import java.security.spec.InvalidParameterSpecException;
 import java.util.HashMap;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyAgreement;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -79,106 +89,109 @@ public class DefaultPlugin implements TestFunctionInterface {
 		try {
 			System.out.println("Device's ATR: " + BinUtils.toHexString(device.getATRBytes()));
 
-//			System.out.println("Begin overload test ...");
-//			int messageLen = 100000;
-//			byte[] message = new byte[messageLen];
+			System.out.println("Begin overload test ...");
+			int messageLen = 100000;
+			byte[] message = new byte[messageLen];
 
-//			rand.nextBytes(message);
-//
-//			// Display Message
-//			System.out.println("Message Length: " + message.length + " bytes");
-////			System.out.println("Message Data: " + BinUtils.toHexString(message));
-//
-//			for (int h = 0; h < hashAlgoJCE.length; h++) {
-//				System.out.println("Testing with hash: " + hashAlgoJCE[h]);
-//
-//				// Set hash algorithm
-//				if (readyHash(device, hashAlgoJC[h])) {
-//
-//					// Reset hash internal state
-//					resetHash(device);
-//
-//					// Do hashing
-//					int hashedLen = 0;
-//					byte[] tempBuffer = null;
-//					byte[] finalDeviceResult = null;
-//					while (hashedLen < messageLen) {
-//						if ((messageLen - hashedLen) > 255) {
-//							// Buffer 255 random bytes and update hash
-//							tempBuffer = new byte[255];
-//							System.arraycopy(message, hashedLen, tempBuffer, 0, 255);
-//							updateHashData(device, tempBuffer);
-//						} else {
-//							// Buffer remaining random bytes and finalize hash
-//							tempBuffer = new byte[(messageLen - hashedLen)];
-//							System.arraycopy(message, hashedLen, tempBuffer, 0, tempBuffer.length);
-//							finalDeviceResult = doFinalHashData(device, tempBuffer);
-//						}
-//
-//						// Increment tempBuffer
-//						hashedLen += tempBuffer.length;
-//					}
-//
-//					// Use JCE Hashing to produce hash of the message for independent checking
-//					MessageDigest md = MessageDigest.getInstance(hashAlgoJCE[h]);
-//					md.update(message);
-//					byte[] finalJCEResult = md.digest();
-//
-//					// Display results
-//					System.out.println("Card Result: " + BinUtils.toHexString(finalDeviceResult));
-//					System.out.println("JCE  Result: " + BinUtils.toHexString(finalJCEResult));
-//
-//					// Compare JCE and Card results
-//					if (BinUtils.binArrayElementsCompare(finalDeviceResult, 0, finalJCEResult, 0,
-//							finalDeviceResult.length) && (finalDeviceResult.length == finalJCEResult.length)) {
-//						System.out.println("Hashing on device is CORRECT");
-//					} else {
-//						System.out.println("Hashing on device is WRONG");
-//					}
-//				} else {
-//					System.out.println("Hash: " + hashAlgoJCE[h] + " is not available ...");
-//				}
-//			}
-//
-//			System.out.println("\r\nBegin JCVM Java testing ...");
-//
-//			JCVMInstanceOfTest(device);
-//
-//			System.out.println("\r\nBegin key setting test from Main Applet...");
-//
-//			for (int h = 0; h < ecAlgoTest.length; h++) {
-//				System.out.println("Testing with key type: " + ecAlgoTest[h]);
-//
-//				boolean setFromMainApplet = true;
-//				byte keyID = (byte) 0x01;
-//				byte ecKeyPrivatePersistentType = (byte) 0x0C; // TYPE_EC_FP_PRIVATE - 12
-//				byte[] privateBytes = new byte[ecPrivateKeyLen[h]]; // get key length
-//				rand.nextBytes(privateBytes);
-//				System.out
-//						.println("Setting Private Key for [" + ecAlgoTest[h] + "]: " + setKey(device, keyID, ecAlgo[h],
-//								ecKeyPrivatePersistentType, privateBytes, ecPrivateKeyBitLength[h], setFromMainApplet));
-//			}
-//
-//			System.out.println("\r\nBegin key setting test from Sub Applet...");
-//
-//			for (int h = 0; h < ecAlgoTest.length; h++) {
-//				System.out.println("Testing with key type: " + ecAlgoTest[h]);
-//
-//				boolean setFromMainApplet = false;
-//				byte keyID = (byte) 0x01;
-//				byte ecKeyPrivatePersistentType = (byte) 0x0C; // TYPE_EC_FP_PRIVATE - 12
-//				byte[] privateBytes = new byte[ecPrivateKeyLen[h]]; // get key length
-//				rand.nextBytes(privateBytes);
-//				System.out
-//						.println("Setting Private Key for [" + ecAlgoTest[h] + "]: " + setKey(device, keyID, ecAlgo[h],
-//								ecKeyPrivatePersistentType, privateBytes, ecPrivateKeyBitLength[h], setFromMainApplet));
-//			}
+			rand.nextBytes(message);
 
-			System.out.println("\r\nTesting DES Crypto...");
+			// Display Message
+			System.out.println("Message Length: " + message.length + " bytes");
+//			System.out.println("Message Data: " + BinUtils.toHexString(message));
+
+			for (int h = 0; h < hashAlgoJCE.length; h++) {
+				System.out.println("Testing with hash: " + hashAlgoJCE[h]);
+
+				// Set hash algorithm
+				if (readyHash(device, hashAlgoJC[h])) {
+
+					// Reset hash internal state
+					resetHash(device);
+
+					// Do hashing
+					int hashedLen = 0;
+					byte[] tempBuffer = null;
+					byte[] finalDeviceResult = null;
+					while (hashedLen < messageLen) {
+						if ((messageLen - hashedLen) > 255) {
+							// Buffer 255 random bytes and update hash
+							tempBuffer = new byte[255];
+							System.arraycopy(message, hashedLen, tempBuffer, 0, 255);
+							updateHashData(device, tempBuffer);
+						} else {
+							// Buffer remaining random bytes and finalize hash
+							tempBuffer = new byte[(messageLen - hashedLen)];
+							System.arraycopy(message, hashedLen, tempBuffer, 0, tempBuffer.length);
+							finalDeviceResult = doFinalHashData(device, tempBuffer);
+						}
+
+						// Increment tempBuffer
+						hashedLen += tempBuffer.length;
+					}
+
+					// Use JCE Hashing to produce hash of the message for independent checking
+					MessageDigest md = MessageDigest.getInstance(hashAlgoJCE[h]);
+					md.update(message);
+					byte[] finalJCEResult = md.digest();
+
+					// Display results
+					System.out.println("Card Result: " + BinUtils.toHexString(finalDeviceResult));
+					System.out.println("JCE  Result: " + BinUtils.toHexString(finalJCEResult));
+
+					// Compare JCE and Card results
+					if (BinUtils.binArrayElementsCompare(finalDeviceResult, 0, finalJCEResult, 0,
+							finalDeviceResult.length) && (finalDeviceResult.length == finalJCEResult.length)) {
+						System.out.println("Hashing on device is CORRECT");
+					} else {
+						System.out.println("Hashing on device is WRONG");
+					}
+				} else {
+					System.out.println("Hash: " + hashAlgoJCE[h] + " is not available ...");
+				}
+			}
+
+			System.out.println("\r\nBegin JCVM Java testing ...");
+
+			JCVMInstanceOfTest(device);
+
+			System.out.println("\r\nBegin key setting test from Main Applet...");
+
+			for (int h = 0; h < ecAlgoTest.length; h++) {
+				System.out.println("Testing with key type: " + ecAlgoTest[h]);
+
+				boolean setFromMainApplet = true;
+				byte keyID = (byte) 0x01;
+				byte ecKeyPrivatePersistentType = (byte) 0x0C; // TYPE_EC_FP_PRIVATE - 12
+				byte[] privateBytes = new byte[ecPrivateKeyLen[h]]; // get key length
+				rand.nextBytes(privateBytes);
+				System.out
+						.println("Setting Private Key for [" + ecAlgoTest[h] + "]: " + setKey(device, keyID, ecAlgo[h],
+								ecKeyPrivatePersistentType, privateBytes, ecPrivateKeyBitLength[h], setFromMainApplet));
+			}
+
+			System.out.println("\r\nBegin key setting test from Sub Applet...");
+
+			for (int h = 0; h < ecAlgoTest.length; h++) {
+				System.out.println("Testing with key type: " + ecAlgoTest[h]);
+
+				boolean setFromMainApplet = false;
+				byte keyID = (byte) 0x01;
+				byte ecKeyPrivatePersistentType = (byte) 0x0C; // TYPE_EC_FP_PRIVATE - 12
+				byte[] privateBytes = new byte[ecPrivateKeyLen[h]]; // get key length
+				rand.nextBytes(privateBytes);
+				System.out
+						.println("Setting Private Key for [" + ecAlgoTest[h] + "]: " + setKey(device, keyID, ecAlgo[h],
+								ecKeyPrivatePersistentType, privateBytes, ecPrivateKeyBitLength[h], setFromMainApplet));
+			}
+//
+			System.out.println("\r\n########## Testing DES Crypto ##########");
 			DESCryptoTest(device);
-			
-			System.out.println("\r\nTesting AES Crypto...");
+
+			System.out.println("\r\n########## Testing AES Crypto ##########");
 			AESCryptoTest(device);
+			
+			System.out.println("\r\n########## Testing ECC Crypto ##########");
+			ECCryptoTest(device);
 
 //			// Arbitrary data upload and download test
 //			System.out.println("Begin arbitrary upload and download via static class test ...");
@@ -202,7 +215,8 @@ public class DefaultPlugin implements TestFunctionInterface {
 //				System.out.println("Failed to upload arbitrary data onto card via static class ...");
 //			}
 		} catch (CardException | InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException
-				| InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException e) {
+				| InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException
+				| InvalidParameterSpecException | SignatureException e) {
 			System.out.println(">>> Exception found ...");
 			e.printStackTrace();
 		}
@@ -738,8 +752,234 @@ public class DefaultPlugin implements TestFunctionInterface {
 		return false;
 	}
 
-	public static boolean ECCryptoTest(TestDevice tempDev) {
+	public static boolean ECCryptoTest(TestDevice tempDev) throws CardException, NoSuchAlgorithmException,
+			NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException,
+			BadPaddingException, InvalidParameterSpecException, SignatureException {
+		// Overload data test
+		byte[] cardCryptoModes = { INS_SIGN, INS_DERIVE };
+		byte[] ecdsaCardCipherModes = { (byte) 0x11, (byte) 0x25, (byte) 0x21, (byte) 0x22, (byte) 0x26 };
+		byte[] ecdhCardCipherModes = { (byte) 0x01, (byte) 0x03 }; // ALG_EC_SVDP_DH = 1, ALG_EC_SVDP_DH_PLAIN = 3
+		int[] eccKeyLength = { 32, 48 };
+		byte[] eccKeyType = { KEY_EC_SECP_256_R1, KEY_EC_SECP_384_R1 };
+		String[] eccJCEKeyLengthName = { "secp256r1", "secp384r1" };
+		String[] cryptoModesNames = { "Sign Mode", "Derive Mode" };
+		String[] ecdsaCardCipherModesNames = { "ALG_ECDSA_SHA", "ALG_ECDSA_SHA_224", "ALG_ECDSA_SHA_256",
+				"ALG_ECDSA_SHA_384", "ALG_ECDSA_SHA_512" };
+		String[] ecdhCardCipherModesNames = { "ALG_EC_SVDP_DH", "ALG_EC_SVDP_DH_PLAIN" };
+		String[] ecdsaJCECipherModes = { "SHA1withECDSA", "SHA224withECDSA", "SHA256withECDSA", "SHA384withECDSA",
+				"SHA512withECDSA" };
+		String[] eccKeyLengthNames = { "256-bit ECC Key", "384-bit ECC Key" };
+		byte[] eccKeyPersistenceType = { (byte) 0x0C, (byte) 0x0B };
+		String[] eccKeyPersistenceTypeName = { "TYPE_EC_FP_PRIVATE", "TYPE_EC_FP_PUBLIC" };
+
+		// Set key ID '1' with ECC key
+		boolean setFromMainApplet = true;
+		byte keyID = (byte) 0x01;
+		boolean allowProceed = true;
+		Signature jceEccSignature = null;
+		KeyAgreement ka = null;
+		int testDataSize = 100000;
+		int dataSize = testDataSize;
+		byte[] parameter = null;
+		byte[] data = null;
+		byte[] data1 = null;
+		byte[] outputCard = null;
+		byte[] outputJCE = null;
+		int outputCardCount = 0;
+		int recvCardCount = 0;
+		MessageDigest sha1 = MessageDigest.getInstance("SHA-1");
+
+		for (int i = 0; i < eccKeyLength.length; i++) {
+			// Generate ECC keypairs for Signature and KeyAgreement
+			System.out.println("Generating " + eccJCEKeyLengthName[i] + " keypairs ...");
+			KeyPair eccKP = generateECKeyPair(eccJCEKeyLengthName[i]);
+			KeyPair ecdhKP = generateECKeyPair(eccJCEKeyLengthName[i]);
+			if (eccKP == null || ecdhKP == null) {
+				System.out.println("[ERR] Failed to generate keypairs ...");
+				return false;
+			}
+
+			if (allowProceed) {
+				// Set key for Card side
+				byte keyPersistentType;
+				byte[] dataBytes;
+				short keyLength;
+				keyPersistentType = eccKeyPersistenceType[0];
+				dataBytes = getPrivateKeyBytes(eccKP, eccKeyLength[i]);
+				allowProceed = setKey(tempDev, keyID, eccKeyType[i], keyPersistentType, dataBytes,
+						(short) (eccKeyLength[i] * 8), setFromMainApplet);
+				System.out.println("Setting Key for [" + eccKeyLengthNames[i] + "]: " + allowProceed);
+
+				// Iterate through Cipher.MODE types
+				for (int k = 0; k < cardCryptoModes.length; k++) {
+					if (k == 0) {
+						// Iterate through ECC signature modes to test them
+						for (int j = 0; j < ecdsaCardCipherModes.length; j++) {
+							// Setup card Cipher instance
+							System.out.println("\r\nBegin setting crypto mode [" + cryptoModesNames[k]
+									+ "] for cipher mode [" + ecdsaCardCipherModesNames[j] + "] on card...");
+							boolean isCardReady = readyCrypto(tempDev, cardCryptoModes[k], ecdsaCardCipherModes[j]);
+							//
+							// Setup JCE Signature instance
+							System.out
+									.println("Begin setting crypto mode [" + ecdsaJCECipherModes[j] + "] for JCE ...");
+							jceEccSignature = Signature.getInstance(ecdsaJCECipherModes[j]);
+
+							if (isCardReady && jceEccSignature != null) {
+								// Execute cipher on card
+
+								// Setup test data
+								if (data == null) {
+									// Generate new data
+									data = new byte[dataSize];
+									rand.nextBytes(data);
+								}
+
+								// Initialize Signer with IV parameter according to cipher modes on card
+								resetCrypto(tempDev, cardCryptoModes[k], keyID, null);
+
+								// Create output buffers
+								outputCard = new byte[256];
+								outputJCE = null;
+								outputCardCount = 0;
+
+								System.out.println("Uploading data ...");
+
+								// Update data chunks
+								byte[] tempOutBuffer = null;
+								byte[] tempInBuffer = null;
+								while (outputCardCount < dataSize) {
+									if ((dataSize - outputCardCount) > 248) {
+										// Buffer 248 bytes and update
+										tempOutBuffer = new byte[248];
+										System.arraycopy(data, outputCardCount, tempOutBuffer, 0, 248);
+//											System.out.println("Sending: " + BinUtils.toHexString(tempOutBuffer));
+										tempInBuffer = updateCryptoData(tempDev, cardCryptoModes[k], tempOutBuffer);
+//											if (tempInBuffer != null) {
+//												System.out.println("Recving: " + BinUtils.toHexString(tempInBuffer));
+//											}
+									} else {
+										// Buffer remaining bytes and finalize
+										tempOutBuffer = new byte[(dataSize - outputCardCount)];
+										System.arraycopy(data, outputCardCount, tempOutBuffer, 0, tempOutBuffer.length);
+//											System.out.println("Sending: " + BinUtils.toHexString(tempOutBuffer));
+										outputCard = doFinalCryptoData(tempDev, cardCryptoModes[k], tempOutBuffer);
+//											if (outputCard != null) {
+//												System.out.println("Recving: " + BinUtils.toHexString(outputCard));
+//											}
+									}
+
+									// Increment tempBuffer
+									outputCardCount += tempOutBuffer.length;
+								}
+								//
+								if (allowProceed) {
+									System.out.println("Finish uploading data ...");
+									System.out.println("Card Result: \r\n" + BinUtils.toHexString(outputCard));
+
+									// Execute cipher on JCE
+									// Initialize Signer with according to cipher modes on JCE
+									jceEccSignature.initVerify(eccKP.getPublic());
+
+									// Cipher operation
+									jceEccSignature.update(data);
+
+									// Comparison of outputs
+									if (jceEccSignature.verify(outputCard)) {
+										System.out.println("[INF] ECC signature results MATCH !!!");
+									} else {
+										System.out.println("[ERR] ECC signature results NOT MATCH !!!");
+									}
+
+									data1 = null;
+								} else {
+									System.out
+											.println("[ERR] Skipping comparison due to FATAL ECC operation error !!!");
+									allowProceed = true;
+								}
+							} else {
+								// Failed to initialize cipher
+								System.out.println("[ERR] ECC signature initialization failed !!!");
+							}
+						}
+					} else {
+						// Iterate through ECC keyagreement modes to test them
+						for (int j = 0; j < ecdhCardCipherModes.length; j++) {
+							// Setup card Cipher instance
+							System.out.println("\r\nBegin setting crypto mode [" + cryptoModesNames[k]
+									+ "] for cipher mode [" + ecdhCardCipherModesNames[j] + "] on card...");
+							boolean isCardReady = readyCrypto(tempDev, cardCryptoModes[k], ecdhCardCipherModes[j]);
+							//
+							// Setup JCE KeyAgreement instance
+							System.out.println("Begin setting ECDH for JCE ...");
+
+							ka = KeyAgreement.getInstance("ECDH");
+							ka.init(ecdhKP.getPrivate());
+							ka.doPhase(eccKP.getPublic(), true);
+							byte[] hostSharedSecret = ka.generateSecret();
+							sha1.reset();
+							byte[] hostSHA1SharedSecret = sha1.digest(hostSharedSecret);
+							System.out.println("Shared Secret: " + BinUtils.toHexString(hostSharedSecret));
+							System.out
+									.println("Shared Secret with SHA-1: " + BinUtils.toHexString(hostSHA1SharedSecret));
+
+							if (isCardReady && hostSharedSecret != null) {
+								// Execute ECDH on card
+
+								// Initialize KeyAgreement with ECDHPublicKey parameter using the ecdhKP public
+								// key
+								resetCrypto(tempDev, cardCryptoModes[k], keyID, null);
+
+								System.out.println("Executing ECDH keyagreement ...");
+
+								outputCard = doFinalCryptoData(tempDev, cardCryptoModes[k],
+										getPublicKeyBytes(ecdhKP, eccKeyLength[i]));
+								if (outputCard != null) {
+									System.out.println("Recving: " + BinUtils.toHexString(outputCard));
+								}
+
+								if (allowProceed) {
+									System.out.println("Finish executing ECDH keyagreement ...");
+									System.out.println("Card Result: \r\n" + BinUtils.toHexString(outputCard));
+
+									// Comparison of outputs
+									if (j == 0) {
+										// ALG_EC_SVDP_DH
+										if (hostSHA1SharedSecret.length == outputCard.length
+												&& BinUtils.binArrayElementsCompare(outputCard, 0, hostSHA1SharedSecret,
+														0, hostSHA1SharedSecret.length)) {
+											System.out.println("[INF] ECDH secret results MATCH !!!");
+										} else {
+											System.out.println("[ERR] ECDH secret results NOT MATCH !!!");
+										}
+									} else {
+										// ALG_EC_SVDP_DH_PLAIN
+										if (hostSharedSecret.length == outputCard.length && BinUtils
+												.binArrayElementsCompare(outputCard, 0, hostSharedSecret, 0, hostSharedSecret.length)) {
+											System.out.println("[INF] ECDH secret results MATCH !!!");
+										} else {
+											System.out.println("[ERR] ECDH secret results NOT MATCH !!!");
+										}
+									}
+								} else {
+									System.out
+											.println("[ERR] Skipping comparison due to FATAL ECC operation error !!!");
+									allowProceed = true;
+								}
+							} else {
+								// Failed to initialize cipher
+								System.out.println("[ERR] ECDH keyagreement initialization failed !!!");
+							}
+						}
+					}
+				}
+			}
+			System.out.println("\r\nGetting key material ...");
+			System.out.println("Key Material: " + BinUtils.toHexString(getKey(tempDev, (byte) 0x01)));
+		}
+
 		return false;
+
 	}
 
 	public static boolean setKey(TestDevice tempDev, byte keyID, byte keyType, byte keyPersistenceType, byte[] data,
@@ -807,6 +1047,70 @@ public class DefaultPlugin implements TestFunctionInterface {
 			System.out.println(BinUtils.toHexString(resp.getBytes()));
 		}
 		return null;
+	}
+
+	public static KeyPair generateECKeyPair(String algo)
+			throws NoSuchAlgorithmException, InvalidParameterSpecException, InvalidAlgorithmParameterException {
+		AlgorithmParameters parameters = AlgorithmParameters.getInstance("EC");
+		parameters.init(new ECGenParameterSpec(algo));
+		java.security.spec.ECParameterSpec ecParameterSpec = parameters
+				.getParameterSpec(java.security.spec.ECParameterSpec.class);
+		KeyPairGenerator keyGen = KeyPairGenerator.getInstance("EC");
+		keyGen.initialize(ecParameterSpec);
+		KeyPair kp = keyGen.generateKeyPair();
+		ECPublicKey publicKey = (ECPublicKey) kp.getPublic();
+		return kp;
+	}
+
+	public static byte[] getPrivateKeyBytes(KeyPair kp, int keyLength) {
+		ECPrivateKey privKey = (ECPrivateKey) kp.getPrivate();
+		byte[] s = privKey.getS().toByteArray();
+		byte[] outFormattedPrivKey = new byte[keyLength];
+		if (s.length > keyLength) {
+			System.arraycopy(s, 1, outFormattedPrivKey, 0, keyLength);
+		} else if (s.length < keyLength) {
+			System.arraycopy(s, 0, outFormattedPrivKey, keyLength - s.length, s.length);
+		} else {
+			System.arraycopy(s, 0, outFormattedPrivKey, 0, keyLength);
+		}
+		return outFormattedPrivKey;
+	}
+
+	public static byte[] getPublicKeyBytes(KeyPair kp, int keyLength) {
+		byte[] outFormattedPubKey = new byte[1 + (2 * keyLength)];
+		int cursor = 0;
+		int copy = 0;
+		outFormattedPubKey[cursor] = (byte) 0x04;
+		cursor++;
+
+		// Handle key material via key length checking
+		byte[] X = ((ECPublicKey) kp.getPublic()).getW().getAffineX().toByteArray();
+		if (X.length > keyLength) {
+			copy = 1;
+			System.arraycopy(X, copy, outFormattedPubKey, cursor, keyLength);
+		} else if (X.length < keyLength) {
+			copy = keyLength - X.length;
+			System.arraycopy(X, 0, outFormattedPubKey, cursor + copy, X.length);
+		} else {
+			System.arraycopy(X, copy, outFormattedPubKey, cursor, keyLength);
+		}
+		cursor += keyLength;
+		copy = 0;
+
+		byte[] Y = ((ECPublicKey) kp.getPublic()).getW().getAffineY().toByteArray();
+		if (Y.length > keyLength) {
+			copy = 1;
+			System.arraycopy(Y, copy, outFormattedPubKey, cursor, keyLength);
+		} else if (Y.length < keyLength) {
+			copy = keyLength - Y.length;
+			System.arraycopy(Y, 0, outFormattedPubKey, cursor + copy, Y.length);
+		} else {
+			System.arraycopy(Y, copy, outFormattedPubKey, cursor, keyLength);
+		}
+		cursor = 0;
+		copy = 0;
+
+		return outFormattedPubKey;
 	}
 
 //	public static void uploadArbitraryDataChunk(TestDevice tempDev, byte[] data) throws CardException {
