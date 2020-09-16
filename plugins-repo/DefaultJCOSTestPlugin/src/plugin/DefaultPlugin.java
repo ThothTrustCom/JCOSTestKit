@@ -90,14 +90,23 @@ public class DefaultPlugin implements TestFunctionInterface {
 			System.out.println("Device's ATR: " + BinUtils.toHexString(device.getATRBytes()));
 
 			System.out.println("Begin overload test ...");
+
+			// Arbitrary data upload and download test
+			System.out.println(
+					"Begin arbitrary upload of \"canary\" message to detect memory corruption after tests ...");
+			byte[] message1 = new byte[255];
+			rand.nextBytes(message1);
+			System.out.println("Message Length: " + message1.length + " bytes");
+			System.out.println("Data to upload: \r\n" + BinUtils.toHexString(message1));
+
+			uploadArbitraryDataChunk(device, message1);
+
+			System.out.println("\r\n########## Begin Hash testing ##########");
+			
 			int messageLen = 100000;
 			byte[] message = new byte[messageLen];
 
-			rand.nextBytes(message);
-
-			// Display Message
-			System.out.println("Message Length: " + message.length + " bytes");
-//			System.out.println("Message Data: " + BinUtils.toHexString(message));
+			rand.nextBytes(message);			
 
 			for (int h = 0; h < hashAlgoJCE.length; h++) {
 				System.out.println("Testing with hash: " + hashAlgoJCE[h]);
@@ -150,11 +159,11 @@ public class DefaultPlugin implements TestFunctionInterface {
 				}
 			}
 
-			System.out.println("\r\nBegin JCVM Java testing ...");
+			System.out.println("\r\n########## Begin JCVM Java testing ##########");
 
 			JCVMInstanceOfTest(device);
 
-			System.out.println("\r\nBegin key setting test from Main Applet...");
+			System.out.println("\r\n########## Begin key setting test from Main Applet ##########");
 
 			for (int h = 0; h < ecAlgoTest.length; h++) {
 				System.out.println("Testing with key type: " + ecAlgoTest[h]);
@@ -169,7 +178,7 @@ public class DefaultPlugin implements TestFunctionInterface {
 								ecKeyPrivatePersistentType, privateBytes, ecPrivateKeyBitLength[h], setFromMainApplet));
 			}
 
-			System.out.println("\r\nBegin key setting test from Sub Applet...");
+			System.out.println("\r\n########## Begin key setting test from Sub Applet ##########");
 
 			for (int h = 0; h < ecAlgoTest.length; h++) {
 				System.out.println("Testing with key type: " + ecAlgoTest[h]);
@@ -183,37 +192,21 @@ public class DefaultPlugin implements TestFunctionInterface {
 						.println("Setting Private Key for [" + ecAlgoTest[h] + "]: " + setKey(device, keyID, ecAlgo[h],
 								ecKeyPrivatePersistentType, privateBytes, ecPrivateKeyBitLength[h], setFromMainApplet));
 			}
-//
+
 			System.out.println("\r\n########## Testing DES Crypto ##########");
 			DESCryptoTest(device);
-
+			
 			System.out.println("\r\n########## Testing AES Crypto ##########");
 			AESCryptoTest(device);
-			
+
 			System.out.println("\r\n########## Testing ECC Crypto ##########");
 			ECCryptoTest(device);
 
-//			// Arbitrary data upload and download test
-//			System.out.println("Begin arbitrary upload and download via static class test ...");
-//			messageLen = 255;
-//			message = new byte[messageLen];
-//			rand.nextBytes(message);
-//			System.out.println("Message Length: " + message.length + " bytes");
-//			System.out.println("Data to upload: \r\n" + BinUtils.toHexString(message));
-//
-//			uploadArbitraryDataChunk(device, message);
-//
-//			int arbitraryDataSize = getArbitraryDataSize(device);
-//			System.out.println("On-Card Arbitrary Data Length: " + arbitraryDataSize + " bytes");
-//
-//			if (arbitraryDataSize == messageLen) {
-//				byte[] downloadData = downloadArbitraryDataChunk(device, 0, messageLen);
-//				System.out.println("Data download: \r\n" + BinUtils.toHexString(downloadData));
-//				System.out.println(
-//						"Data are same ? " + BinUtils.binArrayElementsCompare(message, 0, downloadData, 0, messageLen));
-//			} else {
-//				System.out.println("Failed to upload arbitrary data onto card via static class ...");
-//			}
+			System.out.println("\r\n######## Comparing Canary Data ########");
+			byte[] downloadData = downloadArbitraryDataChunk(device);
+			System.out.println("Data download: \r\n" + BinUtils.toHexString(downloadData));
+			System.out.println("Data are same ? "
+					+ BinUtils.binArrayElementsCompare(message1, 0, downloadData, 0, message1.length));
 		} catch (CardException | InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException
 				| InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException
 				| InvalidParameterSpecException | SignatureException e) {
@@ -287,7 +280,7 @@ public class DefaultPlugin implements TestFunctionInterface {
 
 	public static boolean readyCrypto(TestDevice tempDev, byte cryptoMode, byte algoMode) throws CardException {
 		ResponseAPDU resp = tempDev.send(new CommandAPDU((byte) 0xB0, cryptoMode, P1_SET, algoMode));
-//		System.out.println("Ready Hash Response: " + BinUtils.toHexString(resp.getBytes()));
+		System.out.println("Algo Mode: " + BinUtils.toHexString(new byte[] { algoMode }));
 		if (DeviceHelper.isSuccessfulResponse(resp)) {
 			System.out.println("Crypto is READY ...");
 			return true;
@@ -350,17 +343,24 @@ public class DefaultPlugin implements TestFunctionInterface {
 			InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
 		// Overload data test
 		byte[] cardCryptoModes = { INS_ENCRYPT, INS_DECRYPT };
-		byte[] desCardCipherModes = { (byte) 0x05, (byte) 0x08, (byte) 0x01, (byte) 0x04 };
-		int[] desKeyLength = { 8, 16, 24 };
+		byte[] desCardCipherModes = { (byte) 0x05 /* , (byte) 0x08, (byte) 0x01, (byte) 0x04 */ };
+		int[] desKeyLength = { 8 /* , 16, 24 */ };
 		int[] jceCryptoModes = { Cipher.ENCRYPT_MODE, Cipher.DECRYPT_MODE };
 		String[] cryptoModesNames = { "Encrypt Mode", "Decrypt Mode" }; //
-		String[] desCardCipherModesNames = { "ALG_DES_ECB_NOPAD", "ALG_DES_ECB_PKCS5", "ALG_DES_CBC_NOPAD",
-				"ALG_DES_CBC_PKCS5" };
-		String[] tripleDESSJCECipherModes = { "DESede/ECB/NoPadding", "DESede/ECB/PKCS5Padding", "DESede/CBC/NoPadding",
-				"DESede/CBC/PKCS5Padding" };
-		String[] desJCECipherModes = { "DES/ECB/NoPadding", "DES/ECB/PKCS5Padding", "DES/CBC/NoPadding",
-				"DES/CBC/PKCS5Padding" };
-		String[] desKeyLengthNames = { "Single DES Key", "Double DES Key", "Tripe DES Key" };
+		String[] desCardCipherModesNames = {
+				"ALG_DES_ECB_NOPAD" /*
+									 * , "ALG_DES_ECB_PKCS5", "ALG_DES_CBC_NOPAD", "ALG_DES_CBC_PKCS5"
+									 */ };
+		String[] tripleDESSJCECipherModes = {
+				"DESede/ECB/NoPadding" /*
+										 * , "DESede/ECB/PKCS5Padding", "DESede/CBC/NoPadding",
+										 * "DESede/CBC/PKCS5Padding"
+										 */ };
+		String[] desJCECipherModes = {
+				"DES/ECB/NoPadding" /*
+									 * , "DES/ECB/PKCS5Padding", "DES/CBC/NoPadding", "DES/CBC/PKCS5Padding"
+									 */ };
+		String[] desKeyLengthNames = { "Single DES Key" /* , "Double DES Key", "Tripe DES Key" */ };
 
 		// Set key ID '1' with DES key
 		boolean setFromMainApplet = true;
@@ -530,7 +530,7 @@ public class DefaultPlugin implements TestFunctionInterface {
 								// Comparison of outputs
 								if (recvCardCount == outputJCE.length && BinUtils.binArrayElementsCompare(outputCard, 0,
 										outputJCE, 0, outputJCE.length)) {
-									System.out.println("[INF] Cipher results  MATCH !!!");
+									System.out.println("[INF] Cipher results MATCH !!!");
 								} else {
 									System.out.println("[ERR] Cipher results NOT MATCH !!!");
 								}
@@ -684,7 +684,7 @@ public class DefaultPlugin implements TestFunctionInterface {
 
 								// Copy current result to main result buffer
 //								System.out.println("OC: " + outputCardCount + ", IS: " + dataSize + ", TI: " + tempInBuffer.length);
-								System.arraycopy(tempInBuffer, 0, outputCard, outputCardCount, tempInBuffer.length);
+								System.arraycopy(tempInBuffer, 0, outputCard, recvCardCount, tempInBuffer.length);
 
 								// Increment tempBuffer
 								outputCardCount += tempOutBuffer.length;
@@ -699,7 +699,6 @@ public class DefaultPlugin implements TestFunctionInterface {
 								// Initialize cipher with IV parameter according to cipher modes on JCE
 								if (parameter != null) {
 									System.out.println("IV: " + BinUtils.toHexString(parameter));
-
 									IvParameterSpec iv = new IvParameterSpec(parameter);
 									jceAesCipher.init(jceCryptoModes[k], aesKeySpec, iv);
 								} else {
@@ -725,9 +724,11 @@ public class DefaultPlugin implements TestFunctionInterface {
 								}
 
 								// Comparison of outputs
+//								System.out.println("Card result bytes: " + recvCardCount);
+//								System.out.println("JCE result bytes: " + recvCardCount);
 								if (recvCardCount == outputJCE.length && BinUtils.binArrayElementsCompare(outputCard, 0,
 										outputJCE, 0, outputJCE.length)) {
-									System.out.println("[INF] Cipher results  MATCH !!!");
+									System.out.println("[INF] Cipher results MATCH !!!");
 								} else {
 									System.out.println("[ERR] Cipher results NOT MATCH !!!");
 								}
@@ -799,17 +800,17 @@ public class DefaultPlugin implements TestFunctionInterface {
 				return false;
 			}
 
-			if (allowProceed) {
-				// Set key for Card side
-				byte keyPersistentType;
-				byte[] dataBytes;
-				short keyLength;
-				keyPersistentType = eccKeyPersistenceType[0];
-				dataBytes = getPrivateKeyBytes(eccKP, eccKeyLength[i]);
-				allowProceed = setKey(tempDev, keyID, eccKeyType[i], keyPersistentType, dataBytes,
-						(short) (eccKeyLength[i] * 8), setFromMainApplet);
-				System.out.println("Setting Key for [" + eccKeyLengthNames[i] + "]: " + allowProceed);
+			// Set key for Card side
+			byte keyPersistentType;
+			byte[] dataBytes;
+			short keyLength;
+			keyPersistentType = eccKeyPersistenceType[0];
+			dataBytes = getPrivateKeyBytes(eccKP, eccKeyLength[i]);
+			allowProceed = setKey(tempDev, keyID, eccKeyType[i], keyPersistentType, dataBytes,
+					(short) (eccKeyLength[i] * 8), setFromMainApplet);
+			System.out.println("Setting Key for [" + eccKeyLengthNames[i] + "]: " + allowProceed);
 
+			if (allowProceed) {
 				// Iterate through Cipher.MODE types
 				for (int k = 0; k < cardCryptoModes.length; k++) {
 					if (k == 0) {
@@ -954,8 +955,9 @@ public class DefaultPlugin implements TestFunctionInterface {
 										}
 									} else {
 										// ALG_EC_SVDP_DH_PLAIN
-										if (hostSharedSecret.length == outputCard.length && BinUtils
-												.binArrayElementsCompare(outputCard, 0, hostSharedSecret, 0, hostSharedSecret.length)) {
+										if (hostSharedSecret.length == outputCard.length
+												&& BinUtils.binArrayElementsCompare(outputCard, 0, hostSharedSecret, 0,
+														hostSharedSecret.length)) {
 											System.out.println("[INF] ECDH secret results MATCH !!!");
 										} else {
 											System.out.println("[ERR] ECDH secret results NOT MATCH !!!");
@@ -973,9 +975,9 @@ public class DefaultPlugin implements TestFunctionInterface {
 						}
 					}
 				}
+				System.out.println("\r\nGetting key material ...");
+				System.out.println("Key Material: " + BinUtils.toHexString(getKey(tempDev, (byte) 0x01)));
 			}
-			System.out.println("\r\nGetting key material ...");
-			System.out.println("Key Material: " + BinUtils.toHexString(getKey(tempDev, (byte) 0x01)));
 		}
 
 		return false;
@@ -1113,13 +1115,14 @@ public class DefaultPlugin implements TestFunctionInterface {
 		return outFormattedPubKey;
 	}
 
-//	public static void uploadArbitraryDataChunk(TestDevice tempDev, byte[] data) throws CardException {
-//		ResponseAPDU resp = tempDev.send(new CommandAPDU((byte) 0xB0, INS_SET_DATA, P1_SET, P2_PART_SUB, data));
-//		if (!DeviceHelper.isSuccessfulResponse(resp)) {
-//			System.out.println("[ERR] Uploading arbitrary data failed !!!");
-//			System.out.println(BinUtils.toHexString(resp.getBytes()));
-//		}
-//	}
+	public static void uploadArbitraryDataChunk(TestDevice tempDev, byte[] data) throws CardException {
+		ResponseAPDU resp = tempDev
+				.send(new CommandAPDU((byte) 0xB0, INS_SET_DATA, P1_LOAD_FROM_MAIN, (byte) 0x00, data));
+		if (!DeviceHelper.isSuccessfulResponse(resp)) {
+			System.out.println("[ERR] Uploading arbitrary data failed !!!");
+			System.out.println(BinUtils.toHexString(resp.getBytes()));
+		}
+	}
 //
 //	public static int getArbitraryDataSize(TestDevice tempDev) throws CardException {
 //		ResponseAPDU resp = tempDev.send(new CommandAPDU((byte) 0xB0, INS_SET_DATA, P1_IS_SET, (byte) 0x00, 255));
@@ -1137,20 +1140,20 @@ public class DefaultPlugin implements TestFunctionInterface {
 //		}
 //		return -1;
 //	}
-//
-//	public static byte[] downloadArbitraryDataChunk(TestDevice tempDev, int off, int len) throws CardException {
+
+	public static byte[] downloadArbitraryDataChunk(TestDevice tempDev) throws CardException {
 //		byte[] data = new byte[4];
 //		BinUtils.shortToBytes((short) off, data, (short) 0);
 //		BinUtils.shortToBytes((short) len, data, (short) 2);
-//		ResponseAPDU resp = tempDev.send(new CommandAPDU((byte) 0xB0, INS_SET_DATA, P1_GET, (byte) 0x00, data, 255));
-//		if (DeviceHelper.isSuccessfulResponse(resp)) {
-//			return DeviceHelper.getSuccessfulResponseData(resp);
-//		} else {
-//			System.out.println("[ERR] Hash finalization failed !!!");
-//			System.out.println(BinUtils.toHexString(resp.getBytes()));
-//		}
-//		return null;
-//	}
+		ResponseAPDU resp = tempDev.send(new CommandAPDU((byte) 0xB0, INS_SET_DATA, P1_GET, (byte) 0x00, 255));
+		if (DeviceHelper.isSuccessfulResponse(resp)) {
+			return DeviceHelper.getSuccessfulResponseData(resp);
+		} else {
+			System.out.println("[ERR] Hash finalization failed !!!");
+			System.out.println(BinUtils.toHexString(resp.getBytes()));
+		}
+		return null;
+	}
 
 	@Override
 	public String getPluginName() {

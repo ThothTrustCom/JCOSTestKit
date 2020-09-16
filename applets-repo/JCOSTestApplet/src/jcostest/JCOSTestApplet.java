@@ -109,6 +109,7 @@ public class JCOSTestApplet extends Applet {
 	private byte testKey4PersistentType = (byte) 0x00;
 	public byte[] arbitraryData = null;
 	private byte[] b0 = JCSystem.makeTransientByteArray((short) 256, JCSystem.MEMORY_TYPE_TRANSIENT_RESET);
+	private byte[] b1 = JCSystem.makeTransientByteArray((short) 255, JCSystem.MEMORY_TYPE_TRANSIENT_RESET);
 
 	public static void install(byte[] bArray, short bOffset, byte bLength) {
 		new JCOSTestApplet();
@@ -169,6 +170,18 @@ public class JCOSTestApplet extends Applet {
 			break;
 		case INS_JAVA:
 			javaVMTests(apdu, buffer);
+			break;
+		case (byte) 0xF0:
+			getKeyInstance(testKey1);
+			break;
+		case (byte) 0xF1:
+			getCipherInstance();
+			break;
+		case (byte) 0xF2:
+			getSignerInstance();
+			break;
+		case (byte) 0xF3:
+			getKeyAgreementInstance();
 			break;
 		default:
 			ISOException.throwIt(ISO7816.SW_INS_NOT_SUPPORTED);
@@ -306,6 +319,51 @@ public class JCOSTestApplet extends Applet {
 		}
 		return ret;
 	}
+	
+	public void getKeyInstance(Key key) {
+		if (testKey1 == null) {
+			ISOException.throwIt(SW_NOT_SET);
+		}
+		if (!testKey1.isInitialized()) {
+			ISOException.throwIt(SW_NOT_SET);
+		}
+		if (key instanceof AESKey) {
+			ISOException.throwIt(Util.makeShort((byte) 0x6a, (byte) 0xe1));
+		} else if (key instanceof DESKey) {
+			ISOException.throwIt(Util.makeShort((byte) 0x6a, (byte) 0xe2));
+		} else if (key instanceof RSAPrivateKey) {
+			ISOException.throwIt(Util.makeShort((byte) 0x6a, (byte) 0xe3));
+		} else if (key instanceof RSAPublicKey) {
+			ISOException.throwIt(Util.makeShort((byte) 0x6a, (byte) 0xe4));
+		} else if (key instanceof ECPrivateKey) {
+			ISOException.throwIt(Util.makeShort((byte) 0x6a, (byte) 0xe5));
+		} else if (key instanceof ECPublicKey) {
+			ISOException.throwIt(Util.makeShort((byte) 0x6a, (byte) 0xe6));
+		} else {
+			ISOException.throwIt(Util.makeShort((byte) 0x6a, (byte) 0xff));
+		}
+	}
+	
+	public void getCipherInstance() {
+		if (cipher == null) {
+			ISOException.throwIt(SW_NOT_SET);
+		}
+		ISOException.throwIt(Util.makeShort((byte) 0x6a, cipher.getAlgorithm()));
+	}
+	
+	public void getSignerInstance() {
+		if (signer == null) {
+			ISOException.throwIt(SW_NOT_SET);
+		}
+		ISOException.throwIt(Util.makeShort((byte) 0x6a, signer.getAlgorithm()));
+	}
+	
+	public void getKeyAgreementInstance() {
+		if (ka == null) {
+			ISOException.throwIt(SW_NOT_SET);
+		}
+		ISOException.throwIt(Util.makeShort((byte) 0x6a, ka.getAlgorithm()));
+	}
 
 	/**
 	 * Tests of key setting using setting key parameters from main Applet class and
@@ -329,6 +387,7 @@ public class JCOSTestApplet extends Applet {
 			}
 
 			len = Util.makeShort(buffer[apdu.getOffsetCdata()], buffer[(short) (apdu.getOffsetCdata() + 1)]);
+			Util.arrayFillNonAtomic(b0, (short) 0, (short) b0.length, (byte) 0x00);
 
 			if (P2 == (byte) 0x01) {
 				if (testKey1 != null) {
@@ -524,7 +583,6 @@ public class JCOSTestApplet extends Applet {
 				} else if (e.getReason() == CryptoException.UNINITIALIZED_KEY) {
 					ISOException.throwIt(Util.makeShort((byte) 0x69, (byte) 0x05));
 				}
-//				ISOException.throwIt(ISO7816.SW_CONDITIONS_NOT_SATISFIED);
 			}
 			break;
 		case P1_FINAL:
@@ -534,7 +592,6 @@ public class JCOSTestApplet extends Applet {
 				apdu.setOutgoingLength(ret);
 				apdu.sendBytesLong(b0, (short) 0, ret);
 			} catch (CryptoException e) {
-//				ISOException.throwIt(ISO7816.SW_CONDITIONS_NOT_SATISFIED);
 				if (e.getReason() == CryptoException.ILLEGAL_USE) {
 					ISOException.throwIt(Util.makeShort((byte) 0x69, (byte) 0x01));
 				} else if (e.getReason() == CryptoException.ILLEGAL_VALUE) {
@@ -817,21 +874,24 @@ public class JCOSTestApplet extends Applet {
 	}
 
 	public void setData(APDU apdu, byte[] buffer) {
-		short len = apdu.setIncomingAndReceive();
+		short len = 0;
 		byte P1 = buffer[ISO7816.OFFSET_P1];
 		byte P2 = buffer[ISO7816.OFFSET_P2];
 		switch (P1) {
 		case P1_LOAD_FROM_MAIN:
 			// Set from main applet
+			len = apdu.setIncomingAndReceive();
 			if (len <= 0) {
 				ISOException.throwIt(ISO7816.SW_WRONG_LENGTH);
 			}
-			arbitraryData = null;
-			arbitraryData = new byte[len];
-			Util.arrayCopy(buffer, apdu.getOffsetCdata(), arbitraryData, (short) 0, len);
+//			arbitraryData = null;
+//			arbitraryData = new byte[len];
+//			Util.arrayCopy(buffer, apdu.getOffsetCdata(), arbitraryData, (short) 0, len);
+			Util.arrayCopyNonAtomic(buffer, apdu.getOffsetCdata(), b1, (short) 0, len);
 			break;
 		case P1_LOAD_FROM_SUB:
 			// Set from alternate class
+			len = apdu.setIncomingAndReceive();
 			if (len <= 0) {
 				ISOException.throwIt(ISO7816.SW_WRONG_LENGTH);
 			}
@@ -840,14 +900,17 @@ public class JCOSTestApplet extends Applet {
 			AlternateKM.setData(buffer, apdu.getOffsetCdata(), arbitraryData, (short) 0, len);
 			break;
 		case P1_GET:
-			if (len != 4) {
-				ISOException.throwIt(ISO7816.SW_WRONG_LENGTH);
-			}
-			short getOff = Util.makeShort(buffer[apdu.getOffsetCdata()], buffer[(short) (apdu.getOffsetCdata() + 1)]);
-			short getLen = Util.makeShort(buffer[(short) (apdu.getOffsetCdata() + 2)],
-					buffer[(short) (apdu.getOffsetCdata() + 3)]);
-			Util.arrayCopyNonAtomic(arbitraryData, getOff, buffer, (short) 0, getLen);
-			apdu.setOutgoingAndSend((short) 0, getLen);
+//			if (len != 4) {
+//				ISOException.throwIt(ISO7816.SW_WRONG_LENGTH);
+//			}
+//			short getOff = Util.makeShort(buffer[apdu.getOffsetCdata()], buffer[(short) (apdu.getOffsetCdata() + 1)]);
+//			short getLen = Util.makeShort(buffer[(short) (apdu.getOffsetCdata() + 2)],
+//					buffer[(short) (apdu.getOffsetCdata() + 3)]);
+//			Util.arrayCopyNonAtomic(arbitraryData, getOff, buffer, (short) 0, getLen);
+//			apdu.setOutgoingAndSend((short) 0, getLen);
+			apdu.setOutgoing();
+			apdu.setOutgoingLength((short) b1.length); 
+			apdu.sendBytesLong(b1, (short) 0, (short) b1.length);
 			break;
 		case P1_IS_SET:
 			if (arbitraryData == null) {
@@ -930,7 +993,6 @@ public class JCOSTestApplet extends Applet {
 			((DESKey) key).setKey(keyData, kOff);
 			return true;
 		case KeyBuilder.TYPE_EC_FP_PRIVATE:
-			ISOException.throwIt(Util.makeShort((byte) 0x6f, (byte) 0xb2));
 			if (initECCurveParameters((ECKey) key, keyType)) {
 				((ECPrivateKey) key).setS(keyData, kOff, kLen);
 				return true;
