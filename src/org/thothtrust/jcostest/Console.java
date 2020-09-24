@@ -1,5 +1,8 @@
 package org.thothtrust.jcostest;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Scanner;
 
 import javax.smartcardio.CardException;
@@ -201,7 +204,7 @@ public class Console implements Runnable {
 			System.out.println("Executing plugin pos: " + executingPos);
 			TestFunctionInterface tfi = testServ.findLoadedPluginByPos(executingPos);
 			if (tfi != null) {
-				tfi.process(Main.getSelectedDev());
+				parseResult(tfi.process(Main.getSelectedDev()));
 			}
 		}
 		System.out.println("");
@@ -217,5 +220,49 @@ public class Console implements Runnable {
 
 	public static void reenableInput() {
 		isRequestInput = true;
+	}
+
+	public static void parseResult(HashMap<String, Object> result) {
+		String navail = "Not Available";
+		String errorExec = "Error";
+		String failExec = "Fail";
+		String okExec = "OK";
+		String unknown = "Unknown";
+		if (result != null) {
+			int longestStrLen = 0;
+			Iterator it = result.entrySet().iterator();
+			while (it.hasNext()) {
+				Map.Entry elements = (Map.Entry) it.next();
+				String key = (String) elements.getKey();
+				if (key.length() > longestStrLen) {
+					longestStrLen = key.length();
+				}
+			}
+			
+			it = result.entrySet().iterator();
+			System.out.println("");
+			while (it.hasNext()) {
+				Map.Entry elements = (Map.Entry) it.next();
+				System.out.print(elements.getKey().toString());
+				if (elements.getKey().toString().length() < longestStrLen) {
+					for (int i = 0; i < longestStrLen - elements.getKey().toString().length(); i++) {
+						System.out.print(" ");
+					}
+				}
+				System.out.print("   ");
+				if ((int) elements.getValue() == -2) {
+					System.out.print(errorExec);
+				} else if ((int) elements.getValue() == -1) {
+					System.out.print(navail);
+				} else if ((int) elements.getValue() == 0) {
+					System.out.print(failExec);
+				} else if ((int) elements.getValue() == 1) {
+					System.out.print(okExec);
+				} else {
+					System.out.print(unknown);
+				}
+				System.out.println("");
+			}
+		}
 	}
 }

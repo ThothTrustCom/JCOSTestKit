@@ -83,6 +83,7 @@ public class DefaultPlugin implements TestFunctionInterface {
 	public static short[] ecPrivateKeyLen = { 32, 48, 64, 32, 32, 48, 64 };
 	public static short[] ecPrivateKeyBitLength = { 256, 384, 521, 256, 256, 384, 521 };
 	public static SecureRandom rand = new SecureRandom();
+	public static HashMap<String, Object> result = new HashMap<>();
 
 	@Override
 	public HashMap<String, Object> process(TestDevice device) {
@@ -102,11 +103,11 @@ public class DefaultPlugin implements TestFunctionInterface {
 			uploadArbitraryDataChunk(device, message1);
 
 			System.out.println("\r\n########## Begin Hash testing ##########");
-			
+
 			int messageLen = 100000;
 			byte[] message = new byte[messageLen];
 
-			rand.nextBytes(message);			
+			rand.nextBytes(message);
 
 			for (int h = 0; h < hashAlgoJCE.length; h++) {
 				System.out.println("Testing with hash: " + hashAlgoJCE[h]);
@@ -151,11 +152,14 @@ public class DefaultPlugin implements TestFunctionInterface {
 					if (BinUtils.binArrayElementsCompare(finalDeviceResult, 0, finalJCEResult, 0,
 							finalDeviceResult.length) && (finalDeviceResult.length == finalJCEResult.length)) {
 						System.out.println("Hashing on device is CORRECT");
+						result.put("Hash - " + hashAlgoJCE[h], 1);
 					} else {
 						System.out.println("Hashing on device is WRONG");
+						result.put("Hash - " + hashAlgoJCE[h], 0);
 					}
 				} else {
 					System.out.println("Hash: " + hashAlgoJCE[h] + " is not available ...");
+					result.put("Hash - " + hashAlgoJCE[h], -1);
 				}
 			}
 
@@ -173,9 +177,14 @@ public class DefaultPlugin implements TestFunctionInterface {
 				byte ecKeyPrivatePersistentType = (byte) 0x0C; // TYPE_EC_FP_PRIVATE - 12
 				byte[] privateBytes = new byte[ecPrivateKeyLen[h]]; // get key length
 				rand.nextBytes(privateBytes);
-				System.out
-						.println("Setting Private Key for [" + ecAlgoTest[h] + "]: " + setKey(device, keyID, ecAlgo[h],
-								ecKeyPrivatePersistentType, privateBytes, ecPrivateKeyBitLength[h], setFromMainApplet));
+				boolean isKeySet = setKey(device, keyID, ecAlgo[h], ecKeyPrivatePersistentType, privateBytes,
+						ecPrivateKeyBitLength[h], setFromMainApplet);
+				System.out.println("Setting Private Key for [" + ecAlgoTest[h] + "]: " + isKeySet);
+				if (isKeySet) {
+					result.put("KeySetMainApplet - " + ecAlgoTest[h], 1);
+				} else {
+					result.put("KeySetMainApplet - " + ecAlgoTest[h], 0);
+				}
 			}
 
 			System.out.println("\r\n########## Begin key setting test from Sub Applet ##########");
@@ -188,14 +197,19 @@ public class DefaultPlugin implements TestFunctionInterface {
 				byte ecKeyPrivatePersistentType = (byte) 0x0C; // TYPE_EC_FP_PRIVATE - 12
 				byte[] privateBytes = new byte[ecPrivateKeyLen[h]]; // get key length
 				rand.nextBytes(privateBytes);
-				System.out
-						.println("Setting Private Key for [" + ecAlgoTest[h] + "]: " + setKey(device, keyID, ecAlgo[h],
-								ecKeyPrivatePersistentType, privateBytes, ecPrivateKeyBitLength[h], setFromMainApplet));
+				boolean isKeySet = setKey(device, keyID, ecAlgo[h], ecKeyPrivatePersistentType, privateBytes,
+						ecPrivateKeyBitLength[h], setFromMainApplet);
+				System.out.println("Setting Private Key for [" + ecAlgoTest[h] + "]: " + isKeySet);
+				if (isKeySet) {
+					result.put("KeySetSubApplet - " + ecAlgoTest[h], 1);
+				} else {
+					result.put("KeySetSubApplet - " + ecAlgoTest[h], 0);
+				}
 			}
 
 			System.out.println("\r\n########## Testing DES Crypto ##########");
 			DESCryptoTest(device);
-			
+
 			System.out.println("\r\n########## Testing AES Crypto ##########");
 			AESCryptoTest(device);
 
@@ -205,15 +219,21 @@ public class DefaultPlugin implements TestFunctionInterface {
 			System.out.println("\r\n######## Comparing Canary Data ########");
 			byte[] downloadData = downloadArbitraryDataChunk(device);
 			System.out.println("Data download: \r\n" + BinUtils.toHexString(downloadData));
-			System.out.println("Data are same ? "
-					+ BinUtils.binArrayElementsCompare(message1, 0, downloadData, 0, message1.length));
+			boolean isUserRamMemIntact = BinUtils.binArrayElementsCompare(message1, 0, downloadData, 0,
+					message1.length);
+			System.out.println("Data are same ? " + isUserRamMemIntact);
+			if (isUserRamMemIntact) {
+				result.put("JCUserRAMCorruptTest", 1);
+			} else {
+				result.put("JCUserRAMCorruptTest", 0);
+			}
 		} catch (CardException | InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException
 				| InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException
 				| InvalidParameterSpecException | SignatureException e) {
 			System.out.println(">>> Exception found ...");
 			e.printStackTrace();
 		}
-		return null;
+		return result;
 	}
 
 	public static boolean JCVMInstanceOfTest(TestDevice tempDev) throws CardException {
@@ -226,12 +246,14 @@ public class DefaultPlugin implements TestFunctionInterface {
 			if (respSuccessData.length == 1) {
 				if (respSuccessData[0] == (byte) 0x02) {
 					System.out.println("JCVM's instanceof test is OK ...");
+					result.put("JCInstanceOf", 1);
 					return true;
 				}
 			}
 		}
 		System.out.println("[ERR] JCVM's instanceof FAILED !!!");
 		System.out.println(BinUtils.toHexString(resp.getBytes()));
+		result.put("JCInstanceOf", 0);
 		return false;
 	}
 
@@ -343,24 +365,17 @@ public class DefaultPlugin implements TestFunctionInterface {
 			InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
 		// Overload data test
 		byte[] cardCryptoModes = { INS_ENCRYPT, INS_DECRYPT };
-		byte[] desCardCipherModes = { (byte) 0x05 /* , (byte) 0x08, (byte) 0x01, (byte) 0x04 */ };
-		int[] desKeyLength = { 8 /* , 16, 24 */ };
+		byte[] desCardCipherModes = { (byte) 0x05, (byte) 0x08, (byte) 0x01, (byte) 0x04 };
+		int[] desKeyLength = { 8, 16, 24 };
 		int[] jceCryptoModes = { Cipher.ENCRYPT_MODE, Cipher.DECRYPT_MODE };
-		String[] cryptoModesNames = { "Encrypt Mode", "Decrypt Mode" }; //
-		String[] desCardCipherModesNames = {
-				"ALG_DES_ECB_NOPAD" /*
-									 * , "ALG_DES_ECB_PKCS5", "ALG_DES_CBC_NOPAD", "ALG_DES_CBC_PKCS5"
-									 */ };
-		String[] tripleDESSJCECipherModes = {
-				"DESede/ECB/NoPadding" /*
-										 * , "DESede/ECB/PKCS5Padding", "DESede/CBC/NoPadding",
-										 * "DESede/CBC/PKCS5Padding"
-										 */ };
-		String[] desJCECipherModes = {
-				"DES/ECB/NoPadding" /*
-									 * , "DES/ECB/PKCS5Padding", "DES/CBC/NoPadding", "DES/CBC/PKCS5Padding"
-									 */ };
-		String[] desKeyLengthNames = { "Single DES Key" /* , "Double DES Key", "Tripe DES Key" */ };
+		String[] cryptoModesNames = { "Encrypt Mode", "Decrypt Mode" };
+		String[] desCardCipherModesNames = { "ALG_DES_ECB_NOPAD", "ALG_DES_ECB_PKCS5", "ALG_DES_CBC_NOPAD",
+				"ALG_DES_CBC_PKCS5" };
+		String[] tripleDESSJCECipherModes = { "DESede/ECB/NoPadding", "DESede/ECB/PKCS5Padding", "DESede/CBC/NoPadding",
+				"DESede/CBC/PKCS5Padding" };
+		String[] desJCECipherModes = { "DES/ECB/NoPadding", "DES/ECB/PKCS5Padding", "DES/CBC/NoPadding",
+				"DES/CBC/PKCS5Padding" };
+		String[] desKeyLengthNames = { "Single DES Key", "Double DES Key", "Tripe DES Key" };
 
 		// Set key ID '1' with DES key
 		boolean setFromMainApplet = true;
@@ -531,18 +546,22 @@ public class DefaultPlugin implements TestFunctionInterface {
 								if (recvCardCount == outputJCE.length && BinUtils.binArrayElementsCompare(outputCard, 0,
 										outputJCE, 0, outputJCE.length)) {
 									System.out.println("[INF] Cipher results MATCH !!!");
+									result.put("DES (" + desKeyLength[i] + ") - " + desCardCipherModesNames[j] + " [" + cryptoModesNames[k] + "]", 1);
 								} else {
 									System.out.println("[ERR] Cipher results NOT MATCH !!!");
+									result.put("DES (" + desKeyLength[i] + ") - " + desCardCipherModesNames[j] + " [" + cryptoModesNames[k] + "]", 0);
 								}
 
 								data1 = null;
 							} else {
 								System.out.println("[ERR] Skipping comparison due to FATAL cipher operation error !!!");
+								result.put("DES (" + desKeyLength[i] + ") - " + desCardCipherModesNames[j] + " [" + cryptoModesNames[k] + "]", -2);
 								allowProceed = true;
 							}
 						} else {
 							// Failed to initialize cipher
 							System.out.println("[ERR] Cipher initialization failed !!!");
+							result.put("DES (" + desKeyLength[i] + ") - " + desCardCipherModesNames[j] + " [" + cryptoModesNames[k] + "]", -1);
 						}
 					}
 				}
@@ -729,18 +748,22 @@ public class DefaultPlugin implements TestFunctionInterface {
 								if (recvCardCount == outputJCE.length && BinUtils.binArrayElementsCompare(outputCard, 0,
 										outputJCE, 0, outputJCE.length)) {
 									System.out.println("[INF] Cipher results MATCH !!!");
+									result.put("AES (" + aesKeyLength[i] + ") - " + aesCardCipherModesNames[j] + " [" + cryptoModesNames[k] + "]", 1);
 								} else {
 									System.out.println("[ERR] Cipher results NOT MATCH !!!");
+									result.put("AES (" + aesKeyLength[i] + ") - " + aesCardCipherModesNames[j] + " [" + cryptoModesNames[k] + "]", 0);
 								}
 
 								data1 = null;
 							} else {
 								System.out.println("[ERR] Skipping comparison due to FATAL cipher operation error !!!");
+								result.put("AES (" + aesKeyLength[i] + ") - " + aesCardCipherModesNames[j] + " [" + cryptoModesNames[k] + "]", -2);
 								allowProceed = true;
 							}
 						} else {
 							// Failed to initialize cipher
 							System.out.println("[ERR] Cipher initialization failed !!!");
+							result.put("AES (" + aesKeyLength[i] + ") - " + aesCardCipherModesNames[j] + " [" + cryptoModesNames[k] + "]", -1);
 						}
 					}
 				}
@@ -888,8 +911,10 @@ public class DefaultPlugin implements TestFunctionInterface {
 									// Comparison of outputs
 									if (jceEccSignature.verify(outputCard)) {
 										System.out.println("[INF] ECC signature results MATCH !!!");
+										result.put("ECC Sign (" + eccKeyLength[i] + ") - " + ecdsaCardCipherModesNames[j] + " [" + cryptoModesNames[k] + "]", 1);
 									} else {
 										System.out.println("[ERR] ECC signature results NOT MATCH !!!");
+										result.put("ECC Sign (" + eccKeyLength[i] + ") - " + ecdsaCardCipherModesNames[j] + " [" + cryptoModesNames[k] + "]", 0);
 									}
 
 									data1 = null;
@@ -897,10 +922,12 @@ public class DefaultPlugin implements TestFunctionInterface {
 									System.out
 											.println("[ERR] Skipping comparison due to FATAL ECC operation error !!!");
 									allowProceed = true;
+									result.put("ECC Sign (" + eccKeyLength[i] + ") - " + ecdsaCardCipherModesNames[j] + " [" + cryptoModesNames[k] + "]", -2);
 								}
 							} else {
 								// Failed to initialize cipher
 								System.out.println("[ERR] ECC signature initialization failed !!!");
+								result.put("ECC Sign (" + eccKeyLength[i] + ") - " + ecdsaCardCipherModesNames[j] + " [" + cryptoModesNames[k] + "]", -1);
 							}
 						}
 					} else {
@@ -950,8 +977,10 @@ public class DefaultPlugin implements TestFunctionInterface {
 												&& BinUtils.binArrayElementsCompare(outputCard, 0, hostSHA1SharedSecret,
 														0, hostSHA1SharedSecret.length)) {
 											System.out.println("[INF] ECDH secret results MATCH !!!");
+											result.put("ECDH-SVDP_DH (" + eccKeyLength[i] + ") - " + ecdhCardCipherModesNames[j] + " [" + cryptoModesNames[k] + "]", 1);
 										} else {
 											System.out.println("[ERR] ECDH secret results NOT MATCH !!!");
+											result.put("ECDH-EVDP_DH (" + eccKeyLength[i] + ") - " + ecdhCardCipherModesNames[j] + " [" + cryptoModesNames[k] + "]", 0);
 										}
 									} else {
 										// ALG_EC_SVDP_DH_PLAIN
@@ -959,18 +988,22 @@ public class DefaultPlugin implements TestFunctionInterface {
 												&& BinUtils.binArrayElementsCompare(outputCard, 0, hostSharedSecret, 0,
 														hostSharedSecret.length)) {
 											System.out.println("[INF] ECDH secret results MATCH !!!");
+											result.put("ECDH-SVDP_DH_PLAIN (" + eccKeyLength[i] + ") - " + ecdhCardCipherModesNames[j] + " [" + cryptoModesNames[k] + "]", 1);
 										} else {
 											System.out.println("[ERR] ECDH secret results NOT MATCH !!!");
+											result.put("ECDH-SVDP_DH_PLAIN (" + eccKeyLength[i] + ") - " + ecdhCardCipherModesNames[j] + " [" + cryptoModesNames[k] + "]", 0);
 										}
 									}
 								} else {
 									System.out
 											.println("[ERR] Skipping comparison due to FATAL ECC operation error !!!");
 									allowProceed = true;
+									result.put("ECDH (" + eccKeyLength[i] + ") - " + ecdhCardCipherModesNames[j] + " [" + cryptoModesNames[k] + "]", -2);
 								}
 							} else {
 								// Failed to initialize cipher
 								System.out.println("[ERR] ECDH keyagreement initialization failed !!!");
+								result.put("ECDH (" + eccKeyLength[i] + ") - " + ecdhCardCipherModesNames[j] + " [" + cryptoModesNames[k] + "]", -1);
 							}
 						}
 					}
