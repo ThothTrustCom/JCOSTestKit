@@ -90,146 +90,146 @@ public class DefaultPlugin implements TestFunctionInterface {
 		try {
 			System.out.println("Device's ATR: " + BinUtils.toHexString(device.getATRBytes()));
 
-//			System.out.println("Begin overload test ...");
-//
-//			// Arbitrary data upload and download test
-//			System.out.println(
-//					"Begin arbitrary upload of \"canary\" message to detect memory corruption after tests ...");
-//			byte[] message1 = new byte[255];
-//			rand.nextBytes(message1);
-//			System.out.println("Message Length: " + message1.length + " bytes");
-//			System.out.println("Data to upload: \r\n" + BinUtils.toHexString(message1));
-//
-//			uploadArbitraryDataChunk(device, message1);
-//
-//			System.out.println("\r\n########## Begin Hash testing ##########");
-//
-//			int messageLen = 100000;
-//			byte[] message = new byte[messageLen];
-//
-//			rand.nextBytes(message);
-//
-//			for (int h = 0; h < hashAlgoJCE.length; h++) {
-//				System.out.println("Testing with hash: " + hashAlgoJCE[h]);
-//
-//				// Set hash algorithm
-//				if (readyHash(device, hashAlgoJC[h])) {
-//
-//					// Reset hash internal state
-//					resetHash(device);
-//
-//					// Do hashing
-//					int hashedLen = 0;
-//					byte[] tempBuffer = null;
-//					byte[] finalDeviceResult = null;
-//					while (hashedLen < messageLen) {
-//						if ((messageLen - hashedLen) > 255) {
-//							// Buffer 255 random bytes and update hash
-//							tempBuffer = new byte[255];
-//							System.arraycopy(message, hashedLen, tempBuffer, 0, 255);
-//							updateHashData(device, tempBuffer);
-//						} else {
-//							// Buffer remaining random bytes and finalize hash
-//							tempBuffer = new byte[(messageLen - hashedLen)];
-//							System.arraycopy(message, hashedLen, tempBuffer, 0, tempBuffer.length);
-//							finalDeviceResult = doFinalHashData(device, tempBuffer);
-//						}
-//
-//						// Increment tempBuffer
-//						hashedLen += tempBuffer.length;
-//					}
-//
-//					// Use JCE Hashing to produce hash of the message for independent checking
-//					MessageDigest md = MessageDigest.getInstance(hashAlgoJCE[h]);
-//					md.update(message);
-//					byte[] finalJCEResult = md.digest();
-//
-//					// Display results
-//					System.out.println("Card Result: " + BinUtils.toHexString(finalDeviceResult));
-//					System.out.println("JCE  Result: " + BinUtils.toHexString(finalJCEResult));
-//
-//					// Compare JCE and Card results
-//					if (BinUtils.binArrayElementsCompare(finalDeviceResult, 0, finalJCEResult, 0,
-//							finalDeviceResult.length) && (finalDeviceResult.length == finalJCEResult.length)) {
-//						System.out.println("Hashing on device is CORRECT");
-//						result.put("Hash - " + hashAlgoJCE[h], 1);
-//					} else {
-//						System.out.println("Hashing on device is WRONG");
-//						result.put("Hash - " + hashAlgoJCE[h], 0);
-//					}
-//				} else {
-//					System.out.println("Hash: " + hashAlgoJCE[h] + " is not available ...");
-//					result.put("Hash - " + hashAlgoJCE[h], -1);
-//				}
-//			}
-//
-//			System.out.println("\r\n########## Begin JCVM Java testing ##########");
-//
-//			JCVMInstanceOfTest(device);
-//
-//			System.out.println("\r\n########## Begin key setting test from Main Applet ##########");
-//
-//			for (int h = 0; h < ecAlgoTest.length; h++) {
-//				System.out.println("Testing with key type: " + ecAlgoTest[h]);
-//
-//				boolean setFromMainApplet = true;
-//				byte keyID = (byte) 0x01;
-//				byte ecKeyPrivatePersistentType = (byte) 0x0C; // TYPE_EC_FP_PRIVATE - 12
-//				byte[] privateBytes = new byte[ecPrivateKeyLen[h]]; // get key length
-//				rand.nextBytes(privateBytes);
-//				boolean isKeySet = setKey(device, keyID, ecAlgo[h], ecKeyPrivatePersistentType, privateBytes,
-//						ecPrivateKeyBitLength[h], setFromMainApplet);
-//				System.out.println("Setting Private Key for [" + ecAlgoTest[h] + "]: " + isKeySet);
-//				if (isKeySet) {
-//					result.put("KeySetMainApplet - " + ecAlgoTest[h], 1);
-//				} else {
-//					result.put("KeySetMainApplet - " + ecAlgoTest[h], 0);
-//				}
-//			}
-//
-//			System.out.println("\r\n########## Begin key setting test from Sub Applet ##########");
-//
-//			for (int h = 0; h < ecAlgoTest.length; h++) {
-//				System.out.println("Testing with key type: " + ecAlgoTest[h]);
-//
-//				boolean setFromMainApplet = false;
-//				byte keyID = (byte) 0x01;
-//				byte ecKeyPrivatePersistentType = (byte) 0x0C; // TYPE_EC_FP_PRIVATE - 12
-//				byte[] privateBytes = new byte[ecPrivateKeyLen[h]]; // get key length
-//				rand.nextBytes(privateBytes);
-//				boolean isKeySet = setKey(device, keyID, ecAlgo[h], ecKeyPrivatePersistentType, privateBytes,
-//						ecPrivateKeyBitLength[h], setFromMainApplet);
-//				System.out.println("Setting Private Key for [" + ecAlgoTest[h] + "]: " + isKeySet);
-//				if (isKeySet) {
-//					result.put("KeySetSubApplet - " + ecAlgoTest[h], 1);
-//				} else {
-//					result.put("KeySetSubApplet - " + ecAlgoTest[h], 0);
-//				}
-//			}
+			System.out.println("Begin overload test ...");
+
+			// Arbitrary data upload and download test
+			System.out.println(
+					"Begin arbitrary upload of \"canary\" message to detect memory corruption after tests ...");
+			byte[] message1 = new byte[255];
+			rand.nextBytes(message1);
+			System.out.println("Message Length: " + message1.length + " bytes");
+			System.out.println("Data to upload: \r\n" + BinUtils.toHexString(message1));
+
+			uploadArbitraryDataChunk(device, message1);
+
+			System.out.println("\r\n########## Begin Hash testing ##########");
+
+			int messageLen = 100000;
+			byte[] message = new byte[messageLen];
+
+			rand.nextBytes(message);
+
+			for (int h = 0; h < hashAlgoJCE.length; h++) {
+				System.out.println("Testing with hash: " + hashAlgoJCE[h]);
+
+				// Set hash algorithm
+				if (readyHash(device, hashAlgoJC[h])) {
+
+					// Reset hash internal state
+					resetHash(device);
+
+					// Do hashing
+					int hashedLen = 0;
+					byte[] tempBuffer = null;
+					byte[] finalDeviceResult = null;
+					while (hashedLen < messageLen) {
+						if ((messageLen - hashedLen) > 255) {
+							// Buffer 255 random bytes and update hash
+							tempBuffer = new byte[255];
+							System.arraycopy(message, hashedLen, tempBuffer, 0, 255);
+							updateHashData(device, tempBuffer);
+						} else {
+							// Buffer remaining random bytes and finalize hash
+							tempBuffer = new byte[(messageLen - hashedLen)];
+							System.arraycopy(message, hashedLen, tempBuffer, 0, tempBuffer.length);
+							finalDeviceResult = doFinalHashData(device, tempBuffer);
+						}
+
+						// Increment tempBuffer
+						hashedLen += tempBuffer.length;
+					}
+
+					// Use JCE Hashing to produce hash of the message for independent checking
+					MessageDigest md = MessageDigest.getInstance(hashAlgoJCE[h]);
+					md.update(message);
+					byte[] finalJCEResult = md.digest();
+
+					// Display results
+					System.out.println("Card Result: " + BinUtils.toHexString(finalDeviceResult));
+					System.out.println("JCE  Result: " + BinUtils.toHexString(finalJCEResult));
+
+					// Compare JCE and Card results
+					if (BinUtils.binArrayElementsCompare(finalDeviceResult, 0, finalJCEResult, 0,
+							finalDeviceResult.length) && (finalDeviceResult.length == finalJCEResult.length)) {
+						System.out.println("Hashing on device is CORRECT");
+						result.put("Hash - " + hashAlgoJCE[h], 1);
+					} else {
+						System.out.println("Hashing on device is WRONG");
+						result.put("Hash - " + hashAlgoJCE[h], 0);
+					}
+				} else {
+					System.out.println("Hash: " + hashAlgoJCE[h] + " is not available ...");
+					result.put("Hash - " + hashAlgoJCE[h], -1);
+				}
+			}
+
+			System.out.println("\r\n########## Begin JCVM Java testing ##########");
+
+			JCVMInstanceOfTest(device);
+
+			System.out.println("\r\n########## Begin key setting test from Main Applet ##########");
+
+			for (int h = 0; h < ecAlgoTest.length; h++) {
+				System.out.println("Testing with key type: " + ecAlgoTest[h]);
+
+				boolean setFromMainApplet = true;
+				byte keyID = (byte) 0x01;
+				byte ecKeyPrivatePersistentType = (byte) 0x0C; // TYPE_EC_FP_PRIVATE - 12
+				byte[] privateBytes = new byte[ecPrivateKeyLen[h]]; // get key length
+				rand.nextBytes(privateBytes);
+				boolean isKeySet = setKey(device, keyID, ecAlgo[h], ecKeyPrivatePersistentType, privateBytes,
+						ecPrivateKeyBitLength[h], setFromMainApplet);
+				System.out.println("Setting Private Key for [" + ecAlgoTest[h] + "]: " + isKeySet);
+				if (isKeySet) {
+					result.put("KeySetMainApplet - " + ecAlgoTest[h], 1);
+				} else {
+					result.put("KeySetMainApplet - " + ecAlgoTest[h], 0);
+				}
+			}
+
+			System.out.println("\r\n########## Begin key setting test from Sub Applet ##########");
+
+			for (int h = 0; h < ecAlgoTest.length; h++) {
+				System.out.println("Testing with key type: " + ecAlgoTest[h]);
+
+				boolean setFromMainApplet = false;
+				byte keyID = (byte) 0x01;
+				byte ecKeyPrivatePersistentType = (byte) 0x0C; // TYPE_EC_FP_PRIVATE - 12
+				byte[] privateBytes = new byte[ecPrivateKeyLen[h]]; // get key length
+				rand.nextBytes(privateBytes);
+				boolean isKeySet = setKey(device, keyID, ecAlgo[h], ecKeyPrivatePersistentType, privateBytes,
+						ecPrivateKeyBitLength[h], setFromMainApplet);
+				System.out.println("Setting Private Key for [" + ecAlgoTest[h] + "]: " + isKeySet);
+				if (isKeySet) {
+					result.put("KeySetSubApplet - " + ecAlgoTest[h], 1);
+				} else {
+					result.put("KeySetSubApplet - " + ecAlgoTest[h], 0);
+				}
+			}
 
 			System.out.println("\r\n########## Testing DES Crypto ##########");
 			DESCryptoTest(device);
-//
-//			System.out.println("\r\n########## Testing AES Crypto ##########");
-//			AESCryptoTest(device);
-//
-//			System.out.println("\r\n########## Testing ECC Crypto ##########");
-//			ECCryptoTest(device);
-//
-//			System.out.println("\r\n######## Comparing Canary Data ########");
-//			byte[] downloadData = downloadArbitraryDataChunk(device);
-//			System.out.println("Data download: \r\n" + BinUtils.toHexString(downloadData));
-//			boolean isUserRamMemIntact = BinUtils.binArrayElementsCompare(message1, 0, downloadData, 0,
-//					message1.length);
-//			System.out.println("Data are same ? " + isUserRamMemIntact);
-//			if (isUserRamMemIntact) {
-//				result.put("JCUserRAMCorruptTest", 1);
-//			} else {
-//				result.put("JCUserRAMCorruptTest", 0);
-//			}
+
+			System.out.println("\r\n########## Testing AES Crypto ##########");
+			AESCryptoTest(device);
+
+			System.out.println("\r\n########## Testing ECC Crypto ##########");
+			ECCryptoTest(device);
+
+			System.out.println("\r\n######## Comparing Canary Data ########");
+			byte[] downloadData = downloadArbitraryDataChunk(device);
+			System.out.println("Data download: \r\n" + BinUtils.toHexString(downloadData));
+			boolean isUserRamMemIntact = BinUtils.binArrayElementsCompare(message1, 0, downloadData, 0,
+					message1.length);
+			System.out.println("Data are same ? " + isUserRamMemIntact);
+			if (isUserRamMemIntact) {
+				result.put("JCUserRAMCorruptTest", 1);
+			} else {
+				result.put("JCUserRAMCorruptTest", 0);
+			}
 		} catch (CardException | InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException
 				| InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException
-				/*| InvalidParameterSpecException | SignatureException*/ e) {
+				| InvalidParameterSpecException | SignatureException e) {
 			System.out.println(">>> Exception found ...");
 			e.printStackTrace();
 		}
